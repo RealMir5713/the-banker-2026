@@ -15,7 +15,6 @@ import {
   BrainCircuit,
   ChevronDown,
   CreditCard,
-  Database,
   ExternalLink,
   Globe2,
   Mail,
@@ -137,22 +136,10 @@ function AnimatedCounter({
 function HeroScene() {
   const floatingItems = [
     {
-      icon: CreditCard,
-      className: "left-[6%] top-[22%] h-28 w-44 rotate-[-12deg]",
-      label: "AI Card",
-      delay: 0
-    },
-    {
       icon: Wallet,
       className: "right-[9%] top-[18%] h-32 w-32 rotate-[10deg]",
       label: "Wallet",
       delay: 0.5
-    },
-    {
-      icon: Database,
-      className: "left-[12%] bottom-[18%] h-24 w-24 rotate-[14deg]",
-      label: "Data",
-      delay: 0.8
     },
     {
       icon: Smartphone,
@@ -565,7 +552,7 @@ function FinaleSection() {
             <h2 className="mt-6 text-balance text-5xl font-black text-white md:text-6xl">
               Thông tin đăng ký dự thi
             </h2>
-            <p className="mt-5 text-lg leading-8 text-white/72">
+            <p className="mt-5 text-lg leading-8 text-white/[0.78]">
               Hoàn tất hồ sơ để bước vào hành trình The Banker 2026, từ vòng
               sàng lọc tới các thử thách chuyên môn về tài chính, ngân hàng số
               và giải pháp fintech cùng MSB.
@@ -594,7 +581,7 @@ function FinaleSection() {
                     {item.time}
                   </p>
                   <h3 className="mt-4 text-xl font-black">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-white/68">
+                  <p className="mt-3 text-sm leading-6 text-white/[0.74]">
                     {item.description}
                   </p>
                 </div>
