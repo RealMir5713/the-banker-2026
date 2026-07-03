@@ -66,6 +66,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "The Banker Display";
+  src: url("/fonts/the-banker-display.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+}
+
 :root {
   --background: #fff8f1;
   --foreground: #0b1f3a;
@@ -122,6 +130,68 @@ body {
 
 .text-balance {
   text-wrap: balance;
+}
+
+.font-banker-display {
+  font-family: "The Banker Display", "SVN Gotham Rounded", sans-serif;
+}
+
+.round-panel {
+  position: relative;
+  filter: drop-shadow(0 18px 14px rgba(68, 24, 12, 0.32));
+}
+
+.round-panel-shell,
+.round-panel-inner {
+  clip-path: polygon(
+    8% 0,
+    90% 0,
+    100% 18%,
+    100% 82%,
+    92% 100%,
+    10% 100%,
+    0 82%,
+    0 16%
+  );
+}
+
+.round-panel-shell {
+  min-height: 220px;
+  padding: 3px;
+  background: linear-gradient(145deg, #170c08 0%, #4a251b 46%, #120907 100%);
+}
+
+.round-panel-inner {
+  display: flex;
+  min-height: 214px;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px 24px;
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.13), transparent 28%),
+    linear-gradient(145deg, #7d160f 0%, #be2e1c 48%, #8a180f 100%);
+  color: white;
+  text-align: center;
+}
+
+.round-panel::after {
+  content: "";
+  position: absolute;
+  inset: 10px 12px;
+  z-index: 2;
+  border: 1px solid rgba(255, 188, 113, 0.22);
+  clip-path: polygon(
+    8% 0,
+    90% 0,
+    100% 18%,
+    100% 82%,
+    92% 100%,
+    10% 100%,
+    0 82%,
+    0 16%
+  );
+  pointer-events: none;
 }
 
 .hide-scrollbar {

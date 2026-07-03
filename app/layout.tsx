@@ -61,6 +61,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
+      <head>
+        <link
+          as="font"
+          crossOrigin="anonymous"
+          href="/fonts/the-banker-display.otf"
+          rel="preload"
+          type="font/otf"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

@@ -20,11 +20,8 @@ import {
   Mail,
   MapPin,
   Phone,
-  QrCode,
-  Smartphone,
   Sparkles,
-  Ticket,
-  Wallet
+  Ticket
 } from "lucide-react";
 import { RegistrationForm } from "@/components/RegistrationForm";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -133,94 +130,31 @@ function AnimatedCounter({
   );
 }
 
-function HeroScene() {
-  const floatingItems = [
-    {
-      icon: Wallet,
-      className: "right-[9%] top-[18%] h-32 w-32 rotate-[10deg]",
-      label: "Wallet",
-      delay: 0.5
-    },
-    {
-      icon: Smartphone,
-      className: "right-[18%] bottom-[16%] h-40 w-24 rotate-[-8deg]",
-      label: "Mobile",
-      delay: 1.1
-    },
-    {
-      icon: QrCode,
-      className: "left-[50%] top-[16%] hidden h-24 w-24 rotate-[8deg] md:flex",
-      label: "QR",
-      delay: 1.4
-    }
-  ];
-
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-banker-orange/12 blur-3xl" />
-      <div className="absolute left-[8%] top-[18%] h-24 w-24 rounded-full bg-banker-gold/25 blur-2xl" />
-      <div className="absolute bottom-[14%] right-[18%] h-28 w-28 rounded-full bg-banker-light/70 blur-2xl" />
-
-      <motion.div
-        animate={{ rotate: 360 }}
-        className="absolute left-1/2 top-[52%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-banker-orange/14"
-        transition={{ duration: 34, ease: "linear", repeat: Infinity }}
-      />
-      <motion.div
-        animate={{ rotate: -360 }}
-        className="absolute left-1/2 top-[52%] h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-banker-gold/18"
-        transition={{ duration: 30, ease: "linear", repeat: Infinity }}
-      />
-      <motion.img
-        alt=""
-        animate={{ y: [0, -16, 0], rotate: [0, 3, 0] }}
-        className="absolute left-[45%] top-[31%] hidden h-44 w-28 object-contain opacity-95 drop-shadow-2xl md:block"
-        src="/images/the-banker-key-visual.png"
-        transition={{ duration: 6.2, ease: "easeInOut", repeat: Infinity }}
-      />
-
-      {floatingItems.map((item) => {
-        const Icon = item.icon;
-        return (
-          <motion.div
-            animate={{ y: [0, -18, 0], rotate: [0, 3, 0] }}
-            className={cn(
-              "absolute hidden items-center justify-center rounded-[8px] border border-white/70 bg-white/50 shadow-premium backdrop-blur-xl sm:flex",
-              item.className
-            )}
-            key={item.label}
-            transition={{
-              duration: 5.8,
-              delay: item.delay,
-              ease: "easeInOut",
-              repeat: Infinity
-            }}
-          >
-            <div className="absolute inset-0 rounded-[8px] bg-gradient-to-br from-white/70 via-banker-light/45 to-banker-orange/12" />
-            <Icon className="relative h-10 w-10 text-banker-orange drop-shadow" />
-          </motion.div>
-        );
-      })}
-    </div>
-  );
-}
-
 function HeroSection() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 700], [0, 80]);
+  const y = useTransform(scrollY, [0, 700], [0, 64]);
 
   return (
     <section
       className="relative flex min-h-[100svh] items-center overflow-hidden pt-24"
       id="trang-chu"
     >
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,#fff8f1_0%,#fff1e3_28%,#ffd8b5_58%,#ffffff_100%)] bg-[length:220%_220%] animate-gradient" />
-      <HeroScene />
+      <img
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover object-center"
+        src="/images/hero-background.png"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,248,241,0.97)_0%,rgba(255,248,241,0.84)_38%,rgba(255,248,241,0.12)_67%,rgba(255,248,241,0.02)_100%)]" />
+      <img
+        alt=""
+        className="pointer-events-none absolute inset-x-0 bottom-[-13%] z-[2] h-[48%] w-full object-contain object-bottom opacity-65"
+        src="/images/rock-foreground.png"
+      />
       <motion.div
-        className="section-shell relative z-10 grid gap-8 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center"
+        className="section-shell relative z-10 grid min-h-[calc(100svh-6rem)] gap-8 py-10 lg:grid-cols-[1.35fr_0.65fr] lg:items-center"
         style={{ y }}
       >
-        <div>
+        <div className="relative max-w-5xl">
           <motion.div
             animate={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: 24 }}
@@ -231,20 +165,24 @@ function HeroSection() {
               The Banker 2026
             </Badge>
           </motion.div>
+          <motion.img
+            alt="The Banker 2026"
+            animate={{ y: [0, -7, 0], rotate: [-5, -2, -5] }}
+            className="absolute right-0 top-0 w-24 drop-shadow-[0_12px_18px_rgba(96,28,6,0.24)] sm:w-32 lg:hidden"
+            src="/images/year-2026.png"
+            transition={{ duration: 5.5, ease: "easeInOut", repeat: Infinity }}
+          />
           <motion.h1
             animate={{ opacity: 1, y: 0 }}
-            className="mt-5 max-w-4xl text-[clamp(3.6rem,10.8vw,8rem)] font-black uppercase leading-[0.88] tracking-normal text-banker-navy"
+            className="font-banker-display mt-7 whitespace-nowrap text-[clamp(2.85rem,12vw,7.1rem)] font-normal uppercase leading-none tracking-normal text-[#a92c13] [text-shadow:0_3px_0_#4b170b,0_10px_30px_rgba(121,35,10,0.28)] lg:text-[clamp(4rem,8.4vw,7.1rem)]"
             initial={{ opacity: 0, y: 30 }}
             transition={{ delay: 0.08, duration: 0.7 }}
           >
-            THE
-            <span className="block bg-gradient-to-r from-banker-orange via-banker-amber to-banker-gold bg-clip-text text-transparent">
-              BANKER
-            </span>
+            THE BANKER
           </motion.h1>
           <motion.p
             animate={{ opacity: 1, y: 0 }}
-            className="mt-6 max-w-2xl text-balance text-xl font-bold leading-8 text-banker-navy md:text-2xl"
+            className="mt-5 max-w-2xl text-balance text-xl font-bold leading-8 text-banker-navy md:text-2xl"
             initial={{ opacity: 0, y: 24 }}
             transition={{ delay: 0.16, duration: 0.68 }}
           >
@@ -253,7 +191,7 @@ function HeroSection() {
 
           <motion.div
             animate={{ opacity: 1, y: 0 }}
-            className="mt-6 inline-flex rounded-full border border-banker-orange/25 bg-white/74 px-5 py-3 text-base font-black uppercase tracking-[0.22em] text-banker-orange shadow-glow backdrop-blur-xl"
+            className="mt-5 inline-flex rounded-full border border-banker-orange/25 bg-white/[0.82] px-5 py-3 text-base font-black uppercase tracking-[0.22em] text-banker-orange shadow-glow backdrop-blur-xl"
             initial={{ opacity: 0, y: 24 }}
             transition={{ delay: 0.24, duration: 0.68 }}
           >
@@ -262,22 +200,24 @@ function HeroSection() {
 
           <motion.div
             animate={{ opacity: 1, y: 0 }}
-            className="mt-6 flex flex-wrap gap-3"
+            className="mt-5 flex flex-wrap gap-3"
             initial={{ opacity: 0, y: 24 }}
             transition={{ delay: 0.32, duration: 0.68 }}
           >
-            {eventDetails.map((detail) => {
-              const Icon = detail.icon;
-              return (
-                <div
-                  className="flex items-center gap-2 rounded-full border border-white/70 bg-white/72 px-4 py-3 text-sm font-bold text-banker-navy shadow-sm backdrop-blur-xl"
-                  key={detail.label}
-                >
-                  <Icon className="h-4 w-4 text-banker-orange" />
-                  {detail.label}
-                </div>
-              );
-            })}
+            {eventDetails
+              .filter((detail) => detail.label !== "Đồng hành cùng MSB")
+              .map((detail) => {
+                const Icon = detail.icon;
+                return (
+                  <div
+                    className="flex items-center gap-2 rounded-full border border-white/70 bg-white/[0.82] px-4 py-3 text-sm font-bold text-banker-navy shadow-sm backdrop-blur-xl"
+                    key={detail.label}
+                  >
+                    <Icon className="h-4 w-4 text-banker-orange" />
+                    {detail.label}
+                  </div>
+                );
+              })}
           </motion.div>
 
           <motion.div
@@ -312,45 +252,27 @@ function HeroSection() {
         </div>
 
         <motion.div
-          animate={{ opacity: 1, x: 0 }}
-          className="relative min-h-[390px] lg:min-h-[500px]"
-          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative hidden min-h-[500px] lg:block"
+          initial={{ opacity: 0, y: 24 }}
           transition={{ delay: 0.25, duration: 0.8 }}
         >
-          <div className="absolute inset-x-8 bottom-10 top-4 rotate-3 rounded-[8px] bg-banker-orange/20 blur-2xl" />
-          <div className="glass-border relative mx-auto flex min-h-[420px] max-w-[400px] flex-col justify-between rounded-[8px] border border-white/70 bg-white/54 p-6 shadow-premium backdrop-blur-2xl">
-            <div className="flex items-center justify-between">
-              <span className="rounded-full bg-banker-navy px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white">
-                MSB Partner
-              </span>
-              <img
-                alt="MSB logo"
-                className="h-8 w-28 object-contain"
-                src="/images/msb-logo.png"
-              />
-            </div>
-            <div className="py-10">
-              <div className="mx-auto flex h-48 w-28 rotate-[-8deg] flex-col rounded-[28px] border border-banker-navy/10 bg-banker-navy p-3 shadow-premium">
-                <div className="mx-auto mb-5 h-1.5 w-10 rounded-full bg-white/30" />
-                <div className="flex flex-1 flex-col justify-between rounded-[20px] bg-gradient-to-br from-banker-orange via-banker-amber to-banker-gold p-4 text-white">
-                  <Smartphone className="h-7 w-7" />
-                  <div>
-                    <p className="text-xs font-bold opacity-80">Digital Banking</p>
-                    <p className="text-2xl font-black">2026</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {["Open API", "AI Scoring", "eKYC", "Data Trust"].map((item) => (
-                <div
-                  className="rounded-[8px] border border-white/75 bg-white/70 px-4 py-3 text-sm font-black text-banker-navy shadow-sm"
-                  key={item}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
+          <motion.img
+            alt="The Banker 2026"
+            animate={{ y: [0, -10, 0], rotate: [-5, -2, -5] }}
+            className="absolute right-2 top-[12%] w-52 drop-shadow-[0_18px_25px_rgba(96,28,6,0.3)]"
+            src="/images/year-2026.png"
+            transition={{ duration: 5.5, ease: "easeInOut", repeat: Infinity }}
+          />
+          <div className="absolute bottom-[18%] right-0 flex items-center gap-4 rounded-[8px] border border-white/70 bg-white/[0.84] p-4 shadow-premium backdrop-blur-xl">
+            <span className="rounded-full bg-banker-navy px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white">
+              Đồng hành cùng
+            </span>
+            <img
+              alt="MSB logo"
+              className="h-9 w-28 object-contain"
+              src="/images/msb-logo.png"
+            />
           </div>
         </motion.div>
       </motion.div>
@@ -499,38 +421,46 @@ function StatsSection() {
 
 function JourneySection() {
   return (
-    <section className="py-24" id="hanh-trinh">
-      <div className="section-shell">
+    <section className="relative overflow-hidden py-24" id="hanh-trinh">
+      <img
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover object-center"
+        src="/images/mountain-background.png"
+      />
+      <div className="absolute inset-0 bg-white/[0.68]" />
+      <div className="section-shell relative z-10">
         <SectionTitle
-          description="Từ hồ sơ đăng ký tới sân khấu chung kết, mỗi vòng thi được thiết kế để thử thách tư duy ngân hàng hiện đại."
+          description="Bốn vòng thi liên tiếp, từ hoàn thiện hồ sơ tới phát triển và bảo vệ giải pháp ngân hàng hiện đại."
           eyebrow="Roadmap"
           title="Hành trình cuộc thi"
         />
-        <div className="relative">
-          <div className="absolute left-6 top-0 hidden h-full w-px bg-banker-orange/20 md:left-0 md:right-0 md:top-12 md:block md:h-px md:w-full" />
-          <div className="grid gap-5 md:grid-cols-5">
-            {journey.map((stage, index) => {
-              const Icon = stage.icon;
-              return (
-                <Reveal delay={index * 0.09} key={stage.title}>
-                  <div className="group relative h-full rounded-[8px] border border-white/70 bg-white/70 p-5 shadow-sm backdrop-blur-xl transition hover:-translate-y-2 hover:border-banker-orange/30 hover:shadow-glow">
-                    <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border-4 border-white bg-banker-orange text-white shadow-glow">
-                      <Icon className="h-6 w-6" />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {journey.map((stage, index) => {
+            const Icon = stage.icon;
+            return (
+              <Reveal delay={index * 0.09} key={stage.title}>
+                <div className="round-panel group h-full transition duration-300 hover:-translate-y-2">
+                  <div className="round-panel-shell h-full">
+                    <div className="round-panel-inner">
+                      <Icon className="mx-auto mb-3 h-6 w-6 text-[#ffd39a]" />
+                      <h3 className="text-2xl font-black uppercase">
+                        {stage.title}
+                      </h3>
+                      <p className="mt-1 text-lg font-bold text-[#ffe0b8]">
+                        {stage.date}
+                      </p>
+                      <p className="mt-4 text-sm font-black uppercase tracking-[0.08em]">
+                        {stage.subtitle}
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-white/[0.82]">
+                        {stage.description}
+                      </p>
                     </div>
-                    <span className="text-xs font-black uppercase tracking-[0.18em] text-banker-orange">
-                      Chặng {index + 1}
-                    </span>
-                    <h3 className="mt-3 text-xl font-black text-banker-navy">
-                      {stage.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-6 text-banker-navy/64">
-                      {stage.description}
-                    </p>
                   </div>
-                </Reveal>
-              );
-            })}
-          </div>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -816,14 +746,23 @@ function SiteFooter() {
               Kết nối
             </h3>
             <div className="mt-5 flex flex-wrap gap-3">
-              {["Facebook", "Instagram", "LinkedIn"].map((item) => (
+              {[
+                {
+                  label: "Facebook Group",
+                  href: "https://www.facebook.com/groups/1803549783273975/"
+                },
+                { label: "Instagram", href: "#trang-chu" },
+                { label: "LinkedIn", href: "#trang-chu" }
+              ].map((item) => (
                 <a
                   className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-sm font-bold text-white/76 transition hover:border-banker-orange/60 hover:text-white"
-                  href="#trang-chu"
-                  key={item}
+                  href={item.href}
+                  key={item.label}
+                  rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
                 >
                   <Globe2 className="h-4 w-4 text-banker-light" />
-                  {item}
+                  {item.label}
                 </a>
               ))}
             </div>

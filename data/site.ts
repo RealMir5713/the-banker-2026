@@ -7,7 +7,6 @@ import {
   Landmark,
   Medal,
   Mic,
-  Rocket,
   School,
   ShieldCheck,
   Trophy,
@@ -36,28 +35,31 @@ export const stats = [
 
 export const journey = [
   {
-    title: "Mở đơn",
-    description: "Cổng đăng ký dự thi mở cho sinh viên toàn quốc với hồ sơ học thuật và định hướng nghề nghiệp.",
+    title: "Vòng 1",
+    date: "06/07 - 26/07",
+    subtitle: "Khởi động & đăng ký",
+    description: "Hoàn thiện hồ sơ và bước vào hành trình chinh phục The Banker 2026.",
     icon: FileText
   },
   {
-    title: "Vòng hồ sơ",
-    description: "BTC đánh giá năng lực nền tảng, động lực tham gia và mức độ phù hợp với chủ đề ngân hàng số.",
+    title: "Vòng 2",
+    date: "28/07 - 09/08",
+    subtitle: "Kiến thức ngân hàng",
+    description: "Thử thách nền tảng tài chính, ngân hàng, dữ liệu và chuyển đổi số.",
     icon: ShieldCheck
   },
   {
-    title: "Vòng chuyên môn",
-    description: "Thí sinh xử lý tình huống tài chính, phân tích dữ liệu và đề xuất giải pháp fintech.",
+    title: "Vòng 3",
+    date: "12/08 - 20/08",
+    subtitle: "Giải quyết tình huống",
+    description: "Phân tích bài toán thực tế và phát triển giải pháp ngân hàng hiện đại.",
     icon: Building2
   },
   {
-    title: "Vòng bán kết",
-    description: "Các đội trình bày chiến lược trước mentor, chuyên gia ngân hàng và hội đồng phản biện.",
-    icon: Rocket
-  },
-  {
-    title: "Vòng chung kết",
-    description: "Sân khấu tranh tài cuối cùng, panel chuyên gia và lễ vinh danh The Banker 2026.",
+    title: "Vòng 4",
+    date: "23/08 - 13/09",
+    subtitle: "Tăng tốc & tranh tài",
+    description: "Hoàn thiện chiến lược và thuyết trình trước hội đồng chuyên môn.",
     icon: Crown
   }
 ];
