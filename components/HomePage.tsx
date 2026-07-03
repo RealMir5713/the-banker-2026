@@ -631,7 +631,7 @@ function RegistrationSection() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,107,0,0.18),transparent_30rem),radial-gradient(circle_at_80%_70%,rgba(217,164,65,0.14),transparent_30rem)]" />
       <div className="section-shell relative z-10">
         <SectionTitle
-          description="Hoàn tất hồ sơ cá nhân, thông tin học tập và minh chứng năng lực để đăng ký dự thi The Banker 2026."
+          description="Hoàn tất thông tin để đăng ký dự thi The Banker 2026."
           eyebrow="Registration"
           title="Đăng ký dự thi The Banker 2026"
         />
