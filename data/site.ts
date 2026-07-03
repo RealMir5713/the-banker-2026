@@ -27,10 +27,9 @@ export const eventDetails = [
 ];
 
 export const stats = [
-  { value: 5000, suffix: "+", label: "Thí sinh", icon: Users },
-  { value: 50, suffix: "+", label: "Trường đại học", icon: School },
-  { value: 200, suffix: "+", label: "Mentors & Experts", icon: BadgeCheck },
-  { value: 10, suffix: "+", label: "Mùa tổ chức", icon: Trophy }
+  { value: 6000, suffix: "+", label: "Thí sinh", icon: Users },
+  { value: 80, suffix: "+", label: "Trường đại học", icon: School },
+  { value: 5, suffix: "+", label: "Mùa tổ chức", icon: Trophy }
 ];
 
 export const journey = [
