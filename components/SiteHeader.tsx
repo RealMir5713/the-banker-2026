@@ -6,6 +6,21 @@ import { navItems } from "@/data/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
+const FACEBOOK_GROUP_URL = "https://www.facebook.com/groups/1803549783273975/";
+
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      className={className}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.45h-1.25c-1.24 0-1.62.77-1.62 1.56v1.89h2.76l-.44 2.91h-2.32V22c4.78-.76 8.43-4.92 8.43-9.94Z" />
+    </svg>
+  );
+}
+
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOnDarkSection, setIsOnDarkSection] = useState(false);
@@ -97,7 +112,22 @@ export function SiteHeader() {
           ))}
         </div>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-3 lg:flex">
+          <a
+            aria-label="Tham gia Facebook Group The Banker"
+            className={cn(
+              "inline-flex h-11 w-11 items-center justify-center rounded-full border shadow-sm transition hover:scale-105",
+              isOnDarkSection
+                ? "border-white/25 bg-white/10 text-white hover:bg-white/20"
+                : "border-white/70 bg-white/75 text-[#1877F2] hover:bg-white"
+            )}
+            href={FACEBOOK_GROUP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FacebookIcon className="h-5 w-5" />
+          </a>
+
           <Button onClick={scrollToRegister}>Đăng ký dự thi</Button>
         </div>
 
@@ -128,8 +158,20 @@ export function SiteHeader() {
                 {item.label}
               </a>
             ))}
+
             <a
-              className="mt-2 inline-flex h-11 items-center justify-center rounded-full bg-banker-orange px-5 text-sm font-bold text-white shadow-glow"
+              className="mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#1877F2]/20 bg-white px-5 text-sm font-bold text-[#1877F2] shadow-sm"
+              href={FACEBOOK_GROUP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeMenu}
+            >
+              <FacebookIcon className="h-5 w-5" />
+              Facebook Group
+            </a>
+
+            <a
+              className="inline-flex h-11 items-center justify-center rounded-full bg-banker-orange px-5 text-sm font-bold text-white shadow-glow"
               href="#dang-ky"
               onClick={closeMenu}
             >
