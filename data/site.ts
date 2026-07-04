@@ -1,5 +1,4 @@
 import {
-  BadgeCheck,
   Building2,
   CalendarDays,
   Crown,
@@ -17,7 +16,8 @@ export const navItems = [
   { label: "Trang chủ", href: "#trang-chu" },
   { label: "Thông tin cuộc thi", href: "#thong-tin-cuoc-thi" },
   { label: "Về chúng tôi", href: "#ve-chung-toi" },
-  { label: "Hành trình", href: "#hanh-trinh" }
+  { label: "Hành trình", href: "#hanh-trinh" },
+  { label: "Webinar", href: "/webinar" }
 ];
 
 export const eventDetails = [
@@ -27,9 +27,9 @@ export const eventDetails = [
 ];
 
 export const stats = [
-  { value: 6000, suffix: "+", label: "Thí sinh", icon: Users },
+  { value: 6000, suffix: "+", label: "Lượt đăng ký từ 2024", icon: Users },
   { value: 80, suffix: "+", label: "Trường đại học", icon: School },
-  { value: 5, suffix: "+", label: "Mùa tổ chức", icon: Trophy }
+  { value: 5, suffix: "", label: "Mùa tổ chức", icon: Trophy }
 ];
 
 export const journey = [

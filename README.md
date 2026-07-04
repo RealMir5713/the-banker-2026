@@ -1,6 +1,11 @@
 # The Banker 2026 Competition Registration
 
-Premium Vietnamese competition-registration website for **THE BANKER 2026** with registration storage on Supabase and a token-protected admin dashboard.
+Premium Vietnamese registration website for **THE BANKER 2026** with separate competition and pre-competition webinar landing pages.
+
+## Landing Pages
+
+- `/` - student registration for The Banker 2026 competition
+- `/webinar` - student registration for the Open Banking webinar on 14/07/2026
 
 ## Stack
 
@@ -57,6 +62,22 @@ The `registrations` table stores:
 - `awards`
 - `team_name`
 - `proof_links`
+- `referral_source`
+- `expectations`
+- `created_at`
+
+The `webinar_registrations` table stores webinar sign-ups separately:
+
+- `id`
+- `full_name`
+- `phone`
+- `email`
+- `university`
+- `year`
+- `major`
+- `student_id`
+- `facebook_url`
+- `competition_interest`
 - `referral_source`
 - `expectations`
 - `created_at`

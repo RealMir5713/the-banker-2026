@@ -1,7 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 import type { RegistrationInput } from "@/lib/registration-schema";
+import type { WebinarRegistrationInput } from "@/lib/webinar-registration-schema";
 
 export type RegistrationRecord = RegistrationInput & {
+  id: string;
+  created_at: string;
+};
+
+export type WebinarRegistrationRecord = WebinarRegistrationInput & {
   id: string;
   created_at: string;
 };
@@ -13,6 +19,12 @@ type Database = {
         Row: RegistrationRecord;
         Insert: RegistrationInput;
         Update: Partial<RegistrationInput>;
+        Relationships: [];
+      };
+      webinar_registrations: {
+        Row: WebinarRegistrationRecord;
+        Insert: WebinarRegistrationInput;
+        Update: Partial<WebinarRegistrationInput>;
         Relationships: [];
       };
     };
@@ -56,6 +68,27 @@ export async function createRegistration(input: RegistrationInput) {
 
   const { data, error } = await supabase
     .from("registrations")
+    .insert(input)
+    .select("id, created_at")
+    .single();
+
+  return { data, error };
+}
+
+export async function createWebinarRegistration(
+  input: WebinarRegistrationInput
+) {
+  const supabase = getSupabaseAdmin();
+
+  if (!supabase) {
+    return {
+      data: null,
+      error: new Error("Supabase environment variables are not configured.")
+    };
+  }
+
+  const { data, error } = await supabase
+    .from("webinar_registrations")
     .insert(input)
     .select("id, created_at")
     .single();
