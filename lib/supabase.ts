@@ -1,13 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 import type { RegistrationInput } from "@/lib/registration-schema";
-import type { WebinarRegistrationInput } from "@/lib/webinar-registration-schema";
+import type { WebinarRegistrationPayload } from "@/lib/webinar-registration-schema";
 
 export type RegistrationRecord = RegistrationInput & {
   id: string;
   created_at: string;
 };
 
-export type WebinarRegistrationRecord = WebinarRegistrationInput & {
+export type WebinarRegistrationRecord = WebinarRegistrationPayload & {
   id: string;
   created_at: string;
 };
@@ -23,8 +23,8 @@ type Database = {
       };
       webinar_registrations: {
         Row: WebinarRegistrationRecord;
-        Insert: WebinarRegistrationInput;
-        Update: Partial<WebinarRegistrationInput>;
+        Insert: WebinarRegistrationPayload & { id?: string };
+        Update: Partial<WebinarRegistrationPayload>;
         Relationships: [];
       };
     };
@@ -56,6 +56,19 @@ export function getSupabaseAdmin() {
   });
 }
 
+export function getSupabaseServiceClient() {
+  if (!supabaseUrl || !serviceRoleKey) {
+    return null;
+  }
+
+  return createClient<Database>(supabaseUrl, serviceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  });
+}
+
 export async function createRegistration(input: RegistrationInput) {
   const supabase = getSupabaseAdmin();
 
@@ -76,20 +89,26 @@ export async function createRegistration(input: RegistrationInput) {
 }
 
 export async function createWebinarRegistration(
-  input: WebinarRegistrationInput
+  input: WebinarRegistrationPayload,
+  id?: string
 ) {
-  const supabase = getSupabaseAdmin();
+  const supabase = getSupabaseServiceClient();
 
   if (!supabase) {
     return {
       data: null,
-      error: new Error("Supabase environment variables are not configured.")
+      error: new Error(
+        "Supabase URL and service-role environment variables are required."
+      )
     };
   }
 
+  const insertPayload: Database["public"]["Tables"]["webinar_registrations"]["Insert"] =
+    id ? { ...input, id } : input;
+
   const { data, error } = await supabase
     .from("webinar_registrations")
-    .insert(input)
+    .insert(insertPayload)
     .select("id, created_at")
     .single();
 

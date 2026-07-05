@@ -65,16 +65,43 @@ create table if not exists public.webinar_registrations (
   full_name text not null,
   phone text not null,
   email text not null,
+  facebook_url text not null,
   university text not null,
   year text not null,
-  major text,
-  student_id text,
-  facebook_url text,
-  competition_interest text not null,
-  referral_source text,
-  expectations text,
+  student_id text not null,
+  class_info text not null,
+  speaker_question text not null,
+  organizer_message text not null,
+  proof_post_files jsonb not null default '[]'::jsonb,
+  proof_fanpage_files jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now()
 );
+
+alter table public.webinar_registrations
+  add column if not exists facebook_url text,
+  add column if not exists student_id text,
+  add column if not exists class_info text,
+  add column if not exists speaker_question text,
+  add column if not exists organizer_message text,
+  add column if not exists proof_post_files jsonb not null default '[]'::jsonb,
+  add column if not exists proof_fanpage_files jsonb not null default '[]'::jsonb;
+
+-- Older versions used this field as required. It is no longer part of the
+-- official webinar form, so allow new submissions to omit it.
+do $$
+begin
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'webinar_registrations'
+      and column_name = 'competition_interest'
+  ) then
+    alter table public.webinar_registrations
+      alter column competition_interest drop not null;
+  end if;
+end
+$$;
 
 create index if not exists webinar_registrations_created_at_idx
   on public.webinar_registrations (created_at desc);
@@ -91,4 +118,33 @@ create policy "Allow public webinar registration insert"
   for insert
   with check (true);
 
--- Public reads remain disabled. Use a service-role server endpoint for admin access.
+-- Files are uploaded by the server with SUPABASE_SERVICE_ROLE_KEY.
+-- The bucket stays private, so proof images are never publicly readable.
+insert into storage.buckets (
+  id,
+  name,
+  public,
+  file_size_limit,
+  allowed_mime_types
+)
+values (
+  'webinar-proofs',
+  'webinar-proofs',
+  false,
+  5242880,
+  array[
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/gif',
+    'image/heic',
+    'image/heif'
+  ]
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+-- Public reads remain disabled. Use the Supabase dashboard or a
+-- service-role server endpoint for organizer access.

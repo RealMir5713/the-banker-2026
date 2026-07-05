@@ -72,17 +72,25 @@ The `webinar_registrations` table stores webinar sign-ups separately:
 - `full_name`
 - `phone`
 - `email`
+- `facebook_url`
 - `university`
 - `year`
-- `major`
 - `student_id`
-- `facebook_url`
-- `competition_interest`
-- `referral_source`
-- `expectations`
+- `class_info`
+- `speaker_question`
+- `organizer_message`
+- `proof_post_files`
+- `proof_fanpage_files`
 - `created_at`
 
+The private `webinar-proofs` Storage bucket keeps all uploaded proof images.
+Each proof field accepts up to five images with a maximum size of 5 MB per
+file. Server-side uploads require `SUPABASE_SERVICE_ROLE_KEY`.
+
 Public users can insert registrations. Public reads are disabled; `/admin` reads through the server using `SUPABASE_SERVICE_ROLE_KEY` and requires `ADMIN_DASHBOARD_TOKEN`.
+
+See [docs/SUPABASE-WEBINAR.md](docs/SUPABASE-WEBINAR.md) for the complete
+setup and organizer workflow.
 
 ## Admin
 
