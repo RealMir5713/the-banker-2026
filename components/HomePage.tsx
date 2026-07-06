@@ -612,9 +612,9 @@ function SiteFooter() {
                 <Mail className="h-4 w-4 text-banker-light" />
                 thebanker.fbn@gmail.com
               </a>
-              <a className="flex items-center gap-3 hover:text-white" href="tel:0353037888">
+              <a className="flex items-center gap-3 hover:text-white" href="tel:0342955344">
                 <Phone className="h-4 w-4 text-banker-light" />
-                035 303 7888
+                0342 955 344
               </a>
               <span className="flex items-center gap-3">
                 <MapPin className="h-4 w-4 text-banker-light" />
