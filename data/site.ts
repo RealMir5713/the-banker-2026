@@ -143,7 +143,7 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
       { name: "MCNA", src: "/images/sponsors/mcna.png" },
       { name: "Tingee", src: "/images/sponsors/tingee_new.png", href: "https://tingee.vn/" },
       { name: "FiinGroup", src: "/images/sponsors/fiingroup.png", href: "https://fiingroup.vn/" },
-      { name: "FBF", src: "/images/sponsors/fbf-bieutuong.png", href: "http://fbf.ftu.edu.vn/" }
+      { name: "FBF", src: "/images/sponsors/fbf-full.png", href: "http://fbf.ftu.edu.vn/" }
     ]
   },
   {
