@@ -78,6 +78,11 @@ function doPost(e) {
     var sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
     var now   = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "dd/MM/yyyy HH:mm:ss");
 
+    var proofFileUrl = "";
+
+    if (DRIVE_FOLDER_ID && DRIVE_FOLDER_ID !== "YOUR_DRIVE_FOLDER_ID_HERE") {
+      var folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+      
       if (payload.proof_images && payload.proof_images.length > 0) {
         var urls = [];
         for (var i = 0; i < payload.proof_images.length; i++) {
