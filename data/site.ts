@@ -129,18 +129,18 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
     tier: "Nhà tài trợ Hiện vật",
     logos: [
       { name: "Hemera", src: "/images/sponsors/hemera_black.png", href: "https://www.facebook.com/HemeraMedia" },
-      { name: "86 HSK", src: "/images/sponsors/86hsk.jpg" },
-      { name: "UniWrite", src: "/images/sponsors/uniwrite.png" },
-      { name: "10 Education", src: "/images/sponsors/ten_education.png" },
+      { name: "86 HSK", src: "/images/sponsors/86hsk.jpg", href: "https://tiengtrung86hsk.com/" },
+      { name: "UniWrite", src: "/images/sponsors/uniwrite.png", href: "https://www.facebook.com/unitutoreasywrite/" },
+      { name: "10 Education", src: "/images/sponsors/ten_education.png", href: "https://www.facebook.com/10education/" },
       { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png", href: "https://tocotocotea.com/" },
-      { name: "Onemore", src: "/images/sponsors/onemore_3.png" }
+      { name: "Onemore", src: "/images/sponsors/onemore_3.png", href: "https://onemore.vn/" }
     ]
   },
   {
     tier: "Bảo trợ chuyên môn",
     logos: [
       { name: "MSB", src: "/images/msb-logo.png", href: "https://www.msb.com.vn/" },
-      { name: "MCNA", src: "/images/sponsors/mcna.png" },
+      { name: "MCNA", src: "/images/sponsors/mcna.png", href: "https://mcna.vn/" },
       { name: "Tingee", src: "/images/sponsors/tingee_new.png", href: "https://tingee.vn/" },
       { name: "FiinGroup", src: "/images/sponsors/fiingroup.png", href: "https://fiingroup.vn/" },
       { name: "FBF", src: "/images/sponsors/fbf-full.png", href: "http://fbf.ftu.edu.vn/" }
@@ -156,19 +156,19 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   {
     tier: "Đối tác Đồng hành",
     logos: [
-      { name: "MCNA", src: "/images/sponsors/mcna.png" },
+      { name: "MCNA", src: "/images/sponsors/mcna.png", href: "https://mcna.vn/" },
       { name: "TWINGS", src: "/images/sponsors/twings_new.png", href: "https://twings.vn/" }
     ]
   },
   {
     tier: "Đối tác Truyền thông",
     logos: [
-      { name: "IBC", src: "/images/sponsors/ibc.png" },
-      { name: "MCNA", src: "/images/sponsors/mcna.png" },
-      { name: "ECOM CLUB", src: "/images/sponsors/ecom.png" },
-      { name: "YRC", src: "/images/sponsors/yrc.png" },
-      { name: "QEC", src: "/images/sponsors/qec.jpg" },
-      { name: "REC", src: "/images/sponsors/rec.png" }
+      { name: "IBC", src: "/images/sponsors/ibc.png", href: "https://www.facebook.com/clbkinhdoanhquocte.ibcftu" },
+      { name: "MCNA", src: "/images/sponsors/mcna.png", href: "https://mcna.vn/" },
+      { name: "ECOM CLUB", src: "/images/sponsors/ecom.png", href: "https://www.facebook.com/Ecom.Ftu" },
+      { name: "YRC", src: "/images/sponsors/yrc.png", href: "https://www.facebook.com/svnckh.yrc" },
+      { name: "QEC", src: "/images/sponsors/qec.jpg", href: "https://www.facebook.com/qec.ftu" },
+      { name: "REC", src: "/images/sponsors/rec.png", href: "https://www.facebook.com/FTU.REC" }
     ]
   },
   {
@@ -177,7 +177,7 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   },
   {
     tier: "Bảo trợ Hình ảnh",
-    logos: [{ name: "FPC", src: "/images/sponsors/fpc.png" }]
+    logos: [{ name: "FPC", src: "/images/sponsors/fpc.png", href: "https://www.facebook.com/ftuphotography" }]
   }
 ];
 
