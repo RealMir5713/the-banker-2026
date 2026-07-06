@@ -7,23 +7,23 @@
  * 2. Paste all of this code into Code.gs
  * 3. Update the constants below:
  *      SHEET_ID        → the Google Spreadsheet ID for the WEBINAR sheet (from the URL)
- *      SHEET_NAME      → the tab/sheet name to write rows into (e.g. "Webinar")
- *      DRIVE_FOLDER_ID → a NEW Google Drive folder ID (can leave blank if not needed)
+ *      SHEET_NAME      → the tab/sheet name (e.g. "Webinar")
+ *      DRIVE_FOLDER_ID → a Google Drive folder ID to store webinar proof images
  * 4. Click "Deploy" → "New deployment" → Type: Web App
  *      Execute as: Me (your Google account)
  *      Who has access: Anyone
- * 5. Copy the Web App URL and add it as the environment variable:
- *      WEBINAR_GOOGLE_APPS_SCRIPT_URL=<paste URL here>
- *    in your Vercel project settings.
+ * 5. Copy the Web App URL and add it as the Vercel env variable:
+ *      WEBINAR_GOOGLE_APPS_SCRIPT_URL=<your new web app URL>
+ * 6. Redeploy on Vercel.
  */
 
 // ─── CONFIG ────────────────────────────────────────────────────────────────
-const SHEET_ID        = "YOUR_WEBINAR_SPREADSHEET_ID_HERE";
-const SHEET_NAME      = "Webinar";
-const DRIVE_FOLDER_ID = "YOUR_WEBINAR_DRIVE_FOLDER_ID_HERE";
+var SHEET_ID        = "YOUR_WEBINAR_SPREADSHEET_ID_HERE";
+var SHEET_NAME      = "Webinar";
+var DRIVE_FOLDER_ID = "YOUR_WEBINAR_DRIVE_FOLDER_ID_HERE";
 // ────────────────────────────────────────────────────────────────────────────
 
-const HEADERS = [
+var HEADERS = [
   "Thời gian",
   "Họ và tên",
   "Số điện thoại",
@@ -33,8 +33,8 @@ const HEADERS = [
   "Năm học",
   "MSSV",
   "Lớp - Khóa - Chuyên ngành",
-  "Minh chứng Like & Share bài post (links)",
-  "Minh chứng Follow Fanpage (links)",
+  "Minh chứng Like & Share bài post (Drive links)",
+  "Minh chứng Follow Fanpage (Drive links)",
   "Câu hỏi cho diễn giả",
   "Lời nhắn cho BTC"
 ];
@@ -52,25 +52,47 @@ function doPost(e) {
     var sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
     var now   = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "dd/MM/yyyy HH:mm:ss");
 
-    // proof_post_urls and proof_fanpage_urls are arrays of public Supabase URLs
-    // passed directly from the webinar API after files have been verified in Supabase.
-    var postLinks    = (payload.proof_post_urls    || []).join("\n");
-    var fanpageLinks = (payload.proof_fanpage_urls || []).join("\n");
+    var postLinks    = "";
+    var fanpageLinks = "";
+
+    if (DRIVE_FOLDER_ID && DRIVE_FOLDER_ID !== "YOUR_WEBINAR_DRIVE_FOLDER_ID_HERE") {
+      var folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+
+      // Save proof post images
+      if (payload.proof_post_images && payload.proof_post_images.length > 0) {
+        var postUrls = [];
+        for (var i = 0; i < payload.proof_post_images.length; i++) {
+          var url = saveFile_(folder, payload.proof_post_images[i], payload.full_name + "_Post_" + (i + 1));
+          postUrls.push(url);
+        }
+        postLinks = postUrls.join("\n");
+      }
+
+      // Save proof fanpage images
+      if (payload.proof_fanpage_images && payload.proof_fanpage_images.length > 0) {
+        var fanpageUrls = [];
+        for (var j = 0; j < payload.proof_fanpage_images.length; j++) {
+          var fUrl = saveFile_(folder, payload.proof_fanpage_images[j], payload.full_name + "_Fanpage_" + (j + 1));
+          fanpageUrls.push(fUrl);
+        }
+        fanpageLinks = fanpageUrls.join("\n");
+      }
+    }
 
     var row = [
       now,
-      payload.full_name           || "",
-      payload.phone               || "",
-      payload.email               || "",
-      payload.facebook_url        || "",
-      payload.university          || "",
-      payload.year                || "",
-      payload.student_id          || "",
-      payload.class_info          || "",
+      payload.full_name          || "",
+      payload.phone              || "",
+      payload.email              || "",
+      payload.facebook_url       || "",
+      payload.university         || "",
+      payload.year               || "",
+      payload.student_id         || "",
+      payload.class_info         || "",
       postLinks,
       fanpageLinks,
-      payload.speaker_question    || "",
-      payload.organizer_message   || ""
+      payload.speaker_question   || "",
+      payload.organizer_message  || ""
     ];
 
     sheet.appendRow(row);
@@ -78,6 +100,18 @@ function doPost(e) {
     return buildJsonResponse_({ status: "ok", message: "Đăng ký webinar thành công." });
   } catch (err) {
     return buildJsonResponse_({ status: "error", message: err.toString() });
+  }
+}
+
+function saveFile_(folder, fileData, namePrefix) {
+  try {
+    var data = Utilities.base64Decode(fileData.base64);
+    var blob = Utilities.newBlob(data, fileData.mimeType, namePrefix + "_" + fileData.filename);
+    var file = folder.createFile(blob);
+    return file.getUrl();
+  } catch (e) {
+    Logger.log("saveFile_ error: " + e);
+    return "Error saving file: " + e.message;
   }
 }
 

@@ -17,7 +17,6 @@ import { useForm } from "react-hook-form";
 import { studentYearOptions } from "@/lib/registration-schema";
 import {
   webinarRegistrationSchema,
-  type WebinarProofFile,
   type WebinarRegistrationInput
 } from "@/lib/webinar-registration-schema";
 import { Button } from "@/components/ui/button";
@@ -28,24 +27,43 @@ import { Textarea } from "@/components/ui/textarea";
 const maxFilesPerGroup = 5;
 const maxFileSize = 5 * 1024 * 1024;
 
-type UploadDescriptor = {
-  path: string;
-  signed_url: string;
-};
+// ── Image compression (same approach as competition form) ─────────────────────
+function compressImage(file: File, maxWidth = 1200): Promise<{ base64: string; mimeType: string; filename: string }> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.72);
+          resolve({ base64: dataUrl.split(",")[1], mimeType: "image/jpeg", filename: file.name });
+        } else {
+          const b64 = (event.target?.result as string).split(",")[1];
+          resolve({ base64: b64, mimeType: file.type, filename: file.name });
+        }
+      };
+      img.onerror = reject;
+    };
+    reader.onerror = reject;
+  });
+}
 
-type UploadPlan = {
-  registration_id: string;
-  uploads: {
-    post: UploadDescriptor[];
-    fanpage: UploadDescriptor[];
-  };
-};
-
+// ── Helpers ───────────────────────────────────────────────────────────────────
 function FieldError({ message }: { message?: string }) {
-  if (!message) {
-    return null;
-  }
-
+  if (!message) return null;
   return (
     <p className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-red-600">
       <AlertCircle className="h-3.5 w-3.5" />
@@ -54,15 +72,7 @@ function FieldError({ message }: { message?: string }) {
   );
 }
 
-function Field({
-  children,
-  label,
-  required = false
-}: {
-  children: React.ReactNode;
-  label: string;
-  required?: boolean;
-}) {
+function Field({ children, label, required = false }: { children: React.ReactNode; label: string; required?: boolean }) {
   return (
     <label className="block">
       <span className="mb-2 block text-sm font-bold text-banker-navy">
@@ -78,6 +88,7 @@ function formatFileSize(size: number) {
   return `${(size / 1024 / 1024).toFixed(2)} MB`;
 }
 
+// ── MultiFileField (client-side only, no Supabase) ────────────────────────────
 function MultiFileField({
   error,
   files,
@@ -90,35 +101,26 @@ function MultiFileField({
   onChange: (files: File[], error?: string) => void;
 }) {
   const addFiles = (selectedFiles: File[]) => {
-    const invalidType = selectedFiles.find(
-      (file) => !file.type.startsWith("image/")
-    );
+    const invalidType = selectedFiles.find((file) => !file.type.startsWith("image/"));
     if (invalidType) {
       onChange(files, `"${invalidType.name}" không phải là tệp ảnh.`);
       return;
     }
-
     const oversized = selectedFiles.find((file) => file.size > maxFileSize);
     if (oversized) {
       onChange(files, `"${oversized.name}" vượt quá giới hạn 5 MB.`);
       return;
     }
-
     const nextFiles = [...files, ...selectedFiles].filter(
       (file, index, allFiles) =>
         allFiles.findIndex(
-          (candidate) =>
-            candidate.name === file.name &&
-            candidate.size === file.size &&
-            candidate.lastModified === file.lastModified
+          (c) => c.name === file.name && c.size === file.size && c.lastModified === file.lastModified
         ) === index
     );
-
     if (nextFiles.length > maxFilesPerGroup) {
       onChange(files, `Mỗi mục chỉ nhận tối đa ${maxFilesPerGroup} ảnh.`);
       return;
     }
-
     onChange(nextFiles);
   };
 
@@ -140,12 +142,8 @@ function MultiFileField({
           type="file"
         />
         <UploadCloud className="h-7 w-7 text-banker-orange" />
-        <span className="mt-2 text-sm font-black text-banker-navy">
-          Chọn một hoặc nhiều ảnh
-        </span>
-        <span className="mt-1 text-xs leading-5 text-banker-navy/55">
-          Tối đa 5 ảnh, 5 MB mỗi ảnh
-        </span>
+        <span className="mt-2 text-sm font-black text-banker-navy">Chọn một hoặc nhiều ảnh</span>
+        <span className="mt-1 text-xs leading-5 text-banker-navy/55">Tối đa 5 ảnh, 5 MB mỗi ảnh</span>
       </label>
 
       {files.length > 0 ? (
@@ -157,19 +155,13 @@ function MultiFileField({
             >
               <FileImage className="h-5 w-5 shrink-0 text-banker-orange" />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-xs font-bold text-banker-navy">
-                  {file.name}
-                </p>
-                <p className="mt-0.5 text-[11px] text-banker-navy/50">
-                  {formatFileSize(file.size)}
-                </p>
+                <p className="truncate text-xs font-bold text-banker-navy">{file.name}</p>
+                <p className="mt-0.5 text-[11px] text-banker-navy/50">{formatFileSize(file.size)}</p>
               </div>
               <button
                 aria-label={`Xóa ${file.name}`}
                 className="grid h-8 w-8 shrink-0 place-items-center text-banker-navy/45 transition hover:bg-red-50 hover:text-red-600"
-                onClick={() =>
-                  onChange(files.filter((_, fileIndex) => fileIndex !== index))
-                }
+                onClick={() => onChange(files.filter((_, i) => i !== index))}
                 title="Xóa ảnh"
                 type="button"
               >
@@ -179,12 +171,12 @@ function MultiFileField({
           ))}
         </div>
       ) : null}
-
       <FieldError message={error} />
     </div>
   );
 }
 
+// ── Main Form ─────────────────────────────────────────────────────────────────
 export function WebinarRegistrationForm() {
   const [serverMessage, setServerMessage] = useState("");
   const [submitStatus, setSubmitStatus] = useState("");
@@ -193,7 +185,6 @@ export function WebinarRegistrationForm() {
   const [proofFanpageFiles, setProofFanpageFiles] = useState<File[]>([]);
   const [proofPostError, setProofPostError] = useState("");
   const [proofFanpageError, setProofFanpageError] = useState("");
-  const [fileInputVersion, setFileInputVersion] = useState(0);
 
   const {
     register,
@@ -222,117 +213,36 @@ export function WebinarRegistrationForm() {
 
     const missingPostProof = proofPostFiles.length === 0;
     const missingFanpageProof = proofFanpageFiles.length === 0;
-    setProofPostError(
-      missingPostProof ? "Vui lòng tải lên ít nhất một ảnh minh chứng." : ""
-    );
-    setProofFanpageError(
-      missingFanpageProof ? "Vui lòng tải lên ít nhất một ảnh minh chứng." : ""
-    );
+    setProofPostError(missingPostProof ? "Vui lòng tải lên ít nhất một ảnh minh chứng." : "");
+    setProofFanpageError(missingFanpageProof ? "Vui lòng tải lên ít nhất một ảnh minh chứng." : "");
 
-    if (missingPostProof || missingFanpageProof) {
-      return;
-    }
-
-    let registrationId = "";
+    if (missingPostProof || missingFanpageProof) return;
 
     try {
-      setSubmitStatus("Đang chuẩn bị tải ảnh...");
+      setSubmitStatus("Đang nén và xử lý ảnh...");
 
-      const uploadPlanResponse = await fetch("/api/webinar-upload-urls", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          post: proofPostFiles.map(({ name, size, type }) => ({
-            name,
-            size,
-            type
-          })),
-          fanpage: proofFanpageFiles.map(({ name, size, type }) => ({
-            name,
-            size,
-            type
-          }))
-        })
-      });
-      const uploadPlanResult = (await uploadPlanResponse.json()) as
-        | UploadPlan
-        | { message?: string };
-
-      if (!uploadPlanResponse.ok || !("uploads" in uploadPlanResult)) {
-        throw new Error(
-          "message" in uploadPlanResult
-            ? uploadPlanResult.message
-            : "Chưa thể chuẩn bị khu vực tải ảnh."
-        );
-      }
-
-      registrationId = uploadPlanResult.registration_id;
-      const uploadGroup = async (
-        files: File[],
-        descriptors: UploadDescriptor[]
-      ): Promise<WebinarProofFile[]> => {
-        const metadata: WebinarProofFile[] = [];
-
-        for (const [index, file] of files.entries()) {
-          const descriptor = descriptors[index];
-          if (!descriptor) {
-            throw new Error("Danh sách tải ảnh không đầy đủ.");
-          }
-
-          const fileFormData = new FormData();
-          fileFormData.append("cacheControl", "3600");
-          fileFormData.append("", file);
-          const uploadResponse = await fetch(descriptor.signed_url, {
-            method: "PUT",
-            headers: {
-              "x-upsert": "false"
-            },
-            body: fileFormData
-          });
-
-          if (!uploadResponse.ok) {
-            throw new Error(`Không thể tải ảnh "${file.name}".`);
-          }
-
-          metadata.push({
-            path: descriptor.path,
-            name: file.name,
-            size: file.size,
-            type: file.type
-          });
-        }
-
-        return metadata;
-      };
-
-      setSubmitStatus("Đang tải ảnh minh chứng...");
-      const [proofPostMetadata, proofFanpageMetadata] = await Promise.all([
-        uploadGroup(proofPostFiles, uploadPlanResult.uploads.post),
-        uploadGroup(proofFanpageFiles, uploadPlanResult.uploads.fanpage)
+      // Compress all images client-side (same as competition form)
+      const [compressedPostFiles, compressedFanpageFiles] = await Promise.all([
+        Promise.all(proofPostFiles.map((f) => compressImage(f, 1200))),
+        Promise.all(proofFanpageFiles.map((f) => compressImage(f, 1200)))
       ]);
 
-      setSubmitStatus("Đang lưu thông tin đăng ký...");
+      setSubmitStatus("Đang gửi đăng ký...");
+
       const response = await fetch("/api/webinar-register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
-          registration_id: registrationId,
-          proof_post_files: proofPostMetadata,
-          proof_fanpage_files: proofFanpageMetadata
+          proof_post_images: compressedPostFiles,
+          proof_fanpage_images: compressedFanpageFiles
         })
       });
+
       const result = (await response.json()) as { message?: string };
 
       if (!response.ok) {
-        throw new Error(
-          result.message ??
-            "Chưa thể gửi đăng ký. Vui lòng kiểm tra thông tin và thử lại."
-        );
+        throw new Error(result.message ?? "Chưa thể gửi đăng ký. Vui lòng kiểm tra thông tin và thử lại.");
       }
 
       reset();
@@ -340,19 +250,8 @@ export function WebinarRegistrationForm() {
       setProofFanpageFiles([]);
       setProofPostError("");
       setProofFanpageError("");
-      setFileInputVersion((version) => version + 1);
       setSuccessOpen(true);
     } catch (error) {
-      if (registrationId) {
-        await fetch("/api/webinar-register", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ registration_id: registrationId })
-        }).catch(() => undefined);
-      }
-
       setServerMessage(
         error instanceof Error
           ? error.message
@@ -365,78 +264,47 @@ export function WebinarRegistrationForm() {
 
   return (
     <>
-      <form
-        className="space-y-9"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="space-y-9" onSubmit={handleSubmit(onSubmit)}>
         <section>
           <div className="mb-6">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-banker-orange">
               I. Thông tin cá nhân
             </p>
-            <h3 className="mt-2 text-2xl font-black text-banker-navy">
-              Thông tin người tham dự
-            </h3>
+            <h3 className="mt-2 text-2xl font-black text-banker-navy">Thông tin người tham dự</h3>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
             <div>
               <Field label="Họ và tên của bạn" required>
-                <Input
-                  autoComplete="name"
-                  placeholder="Nguyễn Văn A"
-                  required
-                  {...register("full_name")}
-                />
+                <Input autoComplete="name" placeholder="Nguyễn Văn A" required {...register("full_name")} />
               </Field>
               <FieldError message={errors.full_name?.message} />
             </div>
 
             <div>
               <Field label="Số điện thoại" required>
-                <Input
-                  autoComplete="tel"
-                  inputMode="tel"
-                  placeholder="09xx xxx xxx"
-                  required
-                  {...register("phone")}
-                />
+                <Input autoComplete="tel" inputMode="tel" placeholder="09xx xxx xxx" required {...register("phone")} />
               </Field>
               <FieldError message={errors.phone?.message} />
             </div>
 
             <div>
               <Field label="Địa chỉ email" required>
-                <Input
-                  autoComplete="email"
-                  placeholder="email@example.com"
-                  required
-                  type="email"
-                  {...register("email")}
-                />
+                <Input autoComplete="email" placeholder="email@example.com" required type="email" {...register("email")} />
               </Field>
               <FieldError message={errors.email?.message} />
             </div>
 
             <div>
               <Field label="Link Facebook cá nhân" required>
-                <Input
-                  placeholder="https://facebook.com/..."
-                  required
-                  type="url"
-                  {...register("facebook_url")}
-                />
+                <Input placeholder="https://facebook.com/..." required type="url" {...register("facebook_url")} />
               </Field>
               <FieldError message={errors.facebook_url?.message} />
             </div>
 
             <div>
               <Field label="Bạn là sinh viên trường nào?" required>
-                <Input
-                  placeholder="Trường Đại học Ngoại thương"
-                  required
-                  {...register("university")}
-                />
+                <Input placeholder="Trường Đại học Ngoại thương" required {...register("university")} />
               </Field>
               <FieldError message={errors.university?.message} />
             </div>
@@ -445,9 +313,7 @@ export function WebinarRegistrationForm() {
               <Field label="Bạn là sinh viên năm?" required>
                 <Select required {...register("year")}>
                   {studentYearOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
+                    <option key={option} value={option}>{option}</option>
                   ))}
                 </Select>
               </Field>
@@ -456,22 +322,14 @@ export function WebinarRegistrationForm() {
 
             <div>
               <Field label="Mã số sinh viên của bạn" required>
-                <Input
-                  placeholder="Mã số sinh viên"
-                  required
-                  {...register("student_id")}
-                />
+                <Input placeholder="Mã số sinh viên" required {...register("student_id")} />
               </Field>
               <FieldError message={errors.student_id?.message} />
             </div>
 
             <div>
               <Field label="Khóa - Lớp - Chuyên ngành của bạn" required>
-                <Input
-                  placeholder="K64 - Anh 01 - Tài chính quốc tế"
-                  required
-                  {...register("class_info")}
-                />
+                <Input placeholder="K64 - Anh 01 - Tài chính quốc tế" required {...register("class_info")} />
               </Field>
               <FieldError message={errors.class_info?.message} />
             </div>
@@ -483,16 +341,13 @@ export function WebinarRegistrationForm() {
             <p className="text-xs font-black uppercase tracking-[0.2em] text-banker-orange">
               II. Webinar Open Banking
             </p>
-            <h3 className="mt-2 text-2xl font-black text-banker-navy">
-              Minh chứng và câu hỏi
-            </h3>
+            <h3 className="mt-2 text-2xl font-black text-banker-navy">Minh chứng và câu hỏi</h3>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
             <MultiFileField
               error={proofPostError}
               files={proofPostFiles}
-              key={`post-${fileInputVersion}`}
               label="Ảnh chụp màn hình đã like/share bài mở đơn đăng ký"
               onChange={(files, error = "") => {
                 setProofPostFiles(files);
@@ -502,7 +357,6 @@ export function WebinarRegistrationForm() {
             <MultiFileField
               error={proofFanpageError}
               files={proofFanpageFiles}
-              key={`fanpage-${fileInputVersion}`}
               label="Ảnh chụp màn hình đã like Fanpage CLB Nhà Ngân hàng Tương lai FBN - FTU"
               onChange={(files, error = "") => {
                 setProofFanpageFiles(files);
@@ -511,29 +365,15 @@ export function WebinarRegistrationForm() {
             />
 
             <div className="md:col-span-2">
-              <Field
-                label="Bạn có câu hỏi gì muốn gửi đến diễn giả không?"
-                required
-              >
-                <Textarea
-                  placeholder="Nếu không, vui lòng điền N/A"
-                  required
-                  {...register("speaker_question")}
-                />
+              <Field label="Bạn có câu hỏi gì muốn gửi đến diễn giả không?" required>
+                <Textarea placeholder="Nếu không, vui lòng điền N/A" required {...register("speaker_question")} />
               </Field>
               <FieldError message={errors.speaker_question?.message} />
             </div>
 
             <div className="md:col-span-2">
-              <Field
-                label="Bạn có câu hỏi hay điều gì muốn nhắn gửi đến BTC không?"
-                required
-              >
-                <Textarea
-                  placeholder="Nếu không, vui lòng điền N/A"
-                  required
-                  {...register("organizer_message")}
-                />
+              <Field label="Bạn có câu hỏi hay điều gì muốn nhắn gửi đến BTC không?" required>
+                <Textarea placeholder="Nếu không, vui lòng điền N/A" required {...register("organizer_message")} />
               </Field>
               <FieldError message={errors.organizer_message?.message} />
             </div>
@@ -549,15 +389,10 @@ export function WebinarRegistrationForm() {
         <div className="flex flex-col gap-4 border-t border-banker-orange/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="flex max-w-lg items-start gap-2 text-xs leading-5 text-banker-navy/[0.64]">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-banker-orange" />
-            Ảnh minh chứng được lưu riêng tư trên Supabase và chỉ Ban tổ chức
-            có quyền truy cập.
+            Thông tin và ảnh minh chứng được lưu trữ trên Google Drive và chỉ Ban tổ chức có quyền truy cập.
           </p>
           <Button disabled={isSubmitting} size="lg" type="submit">
-            {isSubmitting ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Send className="h-4 w-4" />
-            )}
+            {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {submitStatus || "Đăng ký tham dự"}
           </Button>
         </div>
@@ -586,18 +421,11 @@ export function WebinarRegistrationForm() {
                 <X className="h-5 w-5" />
               </button>
               <CheckCircle className="mx-auto h-14 w-14 text-banker-orange" />
-              <h3 className="mt-5 text-2xl font-black text-banker-navy">
-                Đăng ký thành công
-              </h3>
+              <h3 className="mt-5 text-2xl font-black text-banker-navy">Đăng ký thành công</h3>
               <p className="mt-3 text-sm leading-6 text-banker-navy/[0.68]">
-                Ban tổ chức sẽ gửi email xác nhận và hướng dẫn tham dự webinar
-                tới bạn.
+                Ban tổ chức sẽ gửi email xác nhận và hướng dẫn tham dự webinar tới bạn.
               </p>
-              <Button
-                className="mt-6"
-                onClick={() => setSuccessOpen(false)}
-                type="button"
-              >
+              <Button className="mt-6" onClick={() => setSuccessOpen(false)} type="button">
                 Hoàn tất
               </Button>
             </motion.div>
