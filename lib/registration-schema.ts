@@ -76,7 +76,17 @@ export const registrationSchema = z.object({
     .min(2, "Vui lòng nhập tên nhóm"),
   proof_links: z.string().trim().optional().default(""),
   referral_source: z.string().trim().optional().default(""),
-  expectations: z.string().trim().optional().default("")
+  expectations: z.string().trim().optional().default(""),
+  fanpage_like_proof_file: z.object({
+    filename: z.string(),
+    mimeType: z.string(),
+    base64: z.string()
+  }).optional(),
+  other_proof_file: z.object({
+    filename: z.string(),
+    mimeType: z.string(),
+    base64: z.string()
+  }).optional()
 });
 
 export type RegistrationInput = z.infer<typeof registrationSchema>;

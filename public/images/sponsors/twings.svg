@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="160" height="50">
+  <rect width="160" height="50" fill="none"/>
+  <g transform="translate(10, 5)">
+    <!-- Wings Icon -->
+    <path d="M5 20 C5 12, 18 8, 25 15 C20 18, 12 20, 5 20 Z" fill="#FF6B00" />
+    <path d="M7 23 C7 17, 16 14, 22 20 C18 22, 12 24, 7 23 Z" fill="#FF6B00" opacity="0.8" />
+    <path d="M9 26 C9 22, 14 20, 19 24 C16 26, 12 27, 9 26 Z" fill="#FF6B00" opacity="0.6" />
+    
+    <!-- Text T -->
+    <text x="32" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="20" fill="#0B1F3A">T</text>
+    <!-- Text Wings -->
+    <text x="46" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="20" fill="#FF6B00">Wings</text>
+    <!-- Text ACADEMY -->
+    <text x="32" y="38" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="7" fill="#0B1F3A" letter-spacing="1.5">A C A D E M Y</text>
+  </g>
+</svg>

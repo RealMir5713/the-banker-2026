@@ -70,6 +70,7 @@ export function RegistrationForm() {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting }
   } = useForm<RegistrationInput>({
     resolver: zodResolver(registrationSchema),
@@ -93,10 +94,11 @@ export function RegistrationForm() {
       professional_certificates: "",
       other_certificates: "",
       awards: "",
-      team_name: "",
       proof_links: "",
       referral_source: "",
-      expectations: ""
+      expectations: "",
+      fanpage_like_proof_file: undefined,
+      other_proof_file: undefined
     }
   });
 
@@ -123,6 +125,31 @@ export function RegistrationForm() {
 
     reset();
     setSuccessOpen(true);
+  };
+
+  const handleFileUpload = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: "fanpage_like_proof_file" | "other_proof_file"
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert("Dung lượng file vượt quá 10MB. Vui lòng chọn file nhỏ hơn.");
+      e.target.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64String = (event.target?.result as string).split(",")[1];
+      setValue(field, {
+        filename: file.name,
+        mimeType: file.type,
+        base64: base64String
+      });
+    };
+    reader.readAsDataURL(file);
   };
 
   const fieldClass = "space-y-2";
@@ -375,6 +402,32 @@ export function RegistrationForm() {
                 id="expectations"
                 placeholder="Bạn mong muốn học hỏi, kết nối hoặc phát triển điều gì qua The Banker 2026?"
                 {...register("expectations")}
+              />
+            </div>
+
+            <div className={fieldClass}>
+              <label className={labelClass} htmlFor="fanpage_like_proof">
+                Ảnh chụp màn hình minh chứng Like Fanpage The Banker (Dung lượng &lt; 10MB) *
+              </label>
+              <Input
+                accept="image/*,.pdf"
+                className="cursor-pointer file:text-banker-navy"
+                id="fanpage_like_proof"
+                onChange={(e) => handleFileUpload(e, "fanpage_like_proof_file")}
+                type="file"
+              />
+            </div>
+
+            <div className={fieldClass}>
+              <label className={labelClass} htmlFor="other_proof">
+                Ảnh minh chứng (nếu có) Dung lượng &lt; 10MB
+              </label>
+              <Input
+                accept="image/*,.pdf"
+                className="cursor-pointer file:text-banker-navy"
+                id="other_proof"
+                onChange={(e) => handleFileUpload(e, "other_proof_file")}
+                type="file"
               />
             </div>
           </div>

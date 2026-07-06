@@ -102,22 +102,42 @@ export const speakers = [
   }
 ];
 
-export const sponsorTiers = [
+export type SponsorLogo = {
+  name: string;
+  src: string;
+};
+
+export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   {
-    tier: "Diamond Sponsor",
-    logos: ["MSB", "FBN Future Bankers"]
+    tier: "Nhà tài trợ Vàng",
+    logos: [
+      { name: "MSB", src: "/images/msb-logo.png" },
+      { name: "SAPP Academy", src: "/images/sponsors/sapp.png" },
+      { name: "TWings Academy", src: "/images/sponsors/twings.svg" }
+    ]
   },
   {
-    tier: "Gold Sponsor",
-    logos: ["VNPay", "MoMo", "FinTech Lab"]
+    tier: "Nhà tài trợ Bạc",
+    logos: [
+      { name: "MCNA Technology School", src: "/images/sponsors/mcna.png" },
+      { name: "10 Education", src: "/images/sponsors/ten_education.png" },
+      { name: "UniWrite", src: "/images/sponsors/uniwrite.png" }
+    ]
   },
   {
-    tier: "Silver Sponsor",
-    logos: ["Open Banking Hub", "Digital Trust", "CloudPay"]
+    tier: "Đơn vị hợp tác",
+    logos: [
+      { name: "HEMA Gift", src: "/images/sponsors/hemera_1.png" },
+      { name: "Onemore+", src: "/images/sponsors/onemore_3.png" },
+      { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png" }
+    ]
   },
   {
-    tier: "Media Partners",
-    logos: ["YBOX", "Brands Vietnam", "FTU Times", "Youth Banking"]
+    tier: "Đối tác truyền thông",
+    logos: [
+      { name: "Edu2Review", src: "/images/sponsors/edu2review_1.png" },
+      { name: "The TOEIC Lab", src: "/images/sponsors/the_toeic_lab.png" }
+    ]
   }
 ];
 

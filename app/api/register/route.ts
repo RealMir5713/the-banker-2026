@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { registrationSchema } from "@/lib/registration-schema";
-import { createRegistration } from "@/lib/supabase";
+
+const GAS_URL = process.env.GOOGLE_APPS_SCRIPT_URL ?? "";
 
 export async function POST(request: Request) {
   try {
@@ -17,23 +18,37 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data, error } = await createRegistration(parsed.data);
-
-    if (error) {
+    if (!GAS_URL) {
       return NextResponse.json(
         {
           message:
-            "Chưa thể lưu đăng ký. Vui lòng kiểm tra cấu hình Supabase hoặc thử lại sau."
+            "Hệ thống chưa được cấu hình. Vui lòng liên hệ BTC để hỗ trợ."
         },
-        { status: 500 }
+        { status: 503 }
       );
     }
 
-    return NextResponse.json({
-      message: "Đăng ký thành công.",
-      registration: data
+    const gasResponse = await fetch(GAS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(parsed.data)
     });
-  } catch {
+
+    if (!gasResponse.ok) {
+      const text = await gasResponse.text().catch(() => "");
+      console.error("[register] GAS error:", gasResponse.status, text);
+      return NextResponse.json(
+        {
+          message:
+            "Chưa thể lưu đăng ký. Vui lòng thử lại sau hoặc liên hệ BTC."
+        },
+        { status: 502 }
+      );
+    }
+
+    return NextResponse.json({ message: "Đăng ký thành công." });
+  } catch (err) {
+    console.error("[register] Unexpected error:", err);
     return NextResponse.json(
       { message: "Có lỗi xảy ra khi xử lý đăng ký." },
       { status: 500 }

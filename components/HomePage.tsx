@@ -33,11 +33,11 @@ import {
   eventDetails,
   faqItems,
   journey,
-  speakers,
   sponsorTiers,
   stats
 } from "@/data/site";
 import { cn } from "@/lib/utils";
+
 
 function Reveal({
   children,
@@ -524,71 +524,23 @@ function FinaleSection() {
   );
 }
 
-function SpeakersSection() {
-  return (
-    <section className="py-24">
-      <div className="section-shell">
-        <SectionTitle
-          description="Hội đồng chuyên môn đại diện cho ngân hàng, fintech, đầu tư và quản trị rủi ro."
-          eyebrow="Speakers & Judges"
-          title="Diễn giả và Ban giám khảo"
-        />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {speakers.map((speaker, index) => {
-            const Icon = speaker.icon;
-            return (
-              <Reveal delay={index * 0.08} key={speaker.name}>
-                <Card className="group overflow-hidden p-4 transition hover:-translate-y-2 hover:border-banker-orange/30 hover:shadow-glow">
-                  <div className="relative aspect-[4/4.4] overflow-hidden rounded-[8px] bg-gradient-to-br from-banker-light via-white to-banker-orange/18">
-                    <div className="absolute inset-x-8 bottom-0 h-[70%] rounded-t-full bg-gradient-to-b from-banker-orange/35 to-banker-navy/88" />
-                    <div className="absolute left-1/2 top-[24%] flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-full bg-white text-3xl font-black text-banker-orange shadow-premium">
-                      {speaker.initials}
-                    </div>
-                    <div className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/78 text-banker-orange backdrop-blur">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                  </div>
-                  <div className="pt-5">
-                    <h3 className="text-xl font-black text-banker-navy">
-                      {speaker.name}
-                    </h3>
-                    <p className="mt-2 text-sm font-bold text-banker-orange">
-                      {speaker.position}
-                    </p>
-                    <p className="mt-1 text-sm text-banker-navy/58">
-                      {speaker.company}
-                    </p>
-                  </div>
-                </Card>
-              </Reveal>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
-function SponsorMarquee({ logos }: { logos: string[] }) {
+function SponsorMarquee({ logos }: { logos: { name: string; src: string }[] }) {
   const allLogos = [...logos, ...logos, ...logos];
 
   return (
     <div className="hide-scrollbar overflow-hidden">
-      <div className="flex min-w-max animate-marquee gap-4 py-2">
+      <div className="flex min-w-max animate-marquee gap-6 py-2">
         {allLogos.map((logo, index) => (
           <div
-            className="flex h-16 min-w-44 items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white/74 px-6 text-center text-sm font-black text-banker-navy shadow-sm backdrop-blur-xl"
-            key={`${logo}-${index}`}
+            className="flex h-16 min-w-44 items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white/90 px-5 shadow-sm backdrop-blur-xl"
+            key={`${logo.name}-${index}`}
           >
-            {logo === "MSB" ? (
-              <img
-                alt="MSB logo"
-                className="h-10 w-32 object-contain"
-                src="/images/msb-logo.png"
-              />
-            ) : (
-              logo
-            )}
+            <img
+              alt={logo.name}
+              className="max-h-11 max-w-[9rem] object-contain"
+              src={logo.src}
+            />
           </div>
         ))}
       </div>
@@ -792,7 +744,6 @@ export function HomePage() {
       <StatsSection />
       <JourneySection />
       <FinaleSection />
-      <SpeakersSection />
       <SponsorsSection />
       <RegistrationSection />
       <FAQSection />
