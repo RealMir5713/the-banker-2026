@@ -514,9 +514,6 @@ function RegistrationSection() {
             Đăng ký dự thi<br/>
             The Banker 2026
           </h2>
-          <p className="mt-4 text-base md:text-lg font-bold uppercase text-banker-navy">
-            Phát triển kinh doanh ngân hàng trên nền tảng số
-          </p>
         </div>
         <Reveal>
           <div className="glass-border rounded-[8px] border border-white/70 bg-white/62 p-5 shadow-premium backdrop-blur-2xl md:p-8">
