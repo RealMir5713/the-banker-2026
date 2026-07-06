@@ -58,10 +58,11 @@ export function RegistrationForm() {
       if (regType === "Cá nhân") {
         fieldsToValidate = ["full_name", "phone", "email", "birth_date", "facebook_url", "university", "major", "year", "cv_file"];
       } else {
-        fieldsToValidate = ["team_name", "team_size", "full_name", "phone", "email", "birth_date", "facebook_url", "university", "major", "year"];
+        fieldsToValidate = ["team_name", "team_size"];
       }
     } else if (step === 3 && regType === "Đồng đội") {
       fieldsToValidate = [
+        "full_name", "phone", "email", "birth_date", "facebook_url", "university", "major", "year",
         "member_a_name", "member_a_university", "member_a_major", "member_a_year",
         "member_b_name", "member_b_university", "member_b_major", "member_b_year",
       ];
@@ -253,14 +254,14 @@ export function RegistrationForm() {
               </div>
             )}
 
-            <div className="grid gap-5 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-bold text-banker-navy">
-                  {regType === "Cá nhân" ? "Họ và tên của bạn" : "Họ và tên Nhóm trưởng"} <span className="text-banker-orange">*</span>
-                </label>
-                <Input {...register("full_name")} placeholder="Nguyễn Văn A" className="h-12 rounded-[12px]" />
-                <FieldError message={errors.full_name?.message} />
-              </div>
+            {regType === "Cá nhân" && (
+              <>
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div>
+                    <label className="mb-2 block text-sm font-bold text-banker-navy">Họ và tên của bạn <span className="text-banker-orange">*</span></label>
+                    <Input {...register("full_name")} placeholder="Nguyễn Văn A" className="h-12 rounded-[12px]" />
+                    <FieldError message={errors.full_name?.message} />
+                  </div>
               <div>
                 <label className="mb-2 block text-sm font-bold text-banker-navy">Số điện thoại <span className="text-banker-orange">*</span></label>
                 <Input {...register("phone")} placeholder="09xx xxx xxx" className="h-12 rounded-[12px]" />
@@ -281,26 +282,23 @@ export function RegistrationForm() {
                 <Input {...register("facebook_url")} placeholder="https://facebook.com/..." className="h-12 rounded-[12px]" />
                 <FieldError message={errors.facebook_url?.message} />
               </div>
-              
-              {regType === "Cá nhân" && (
-                <div>
-                  <label className="mb-2 block text-sm font-bold text-banker-navy">CV Cá nhân (PDF) <span className="text-banker-orange">*</span></label>
-                  <label className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[12px] border border-dashed border-banker-orange/30 bg-banker-orange/5 text-sm font-medium text-banker-orange hover:bg-banker-orange/10">
-                    <UploadCloud className="h-4 w-4" />
-                    {cvFile ? cvFile.filename : "Tải lên CV"}
-                    <input type="file" accept=".pdf" className="hidden" onChange={(e) => handleFile(e, "cv_file")} />
-                  </label>
-                  {!cvFile && <FieldError message="Vui lòng tải lên CV" />}
-                </div>
-              )}
+              <div>
+                <label className="mb-2 block text-sm font-bold text-banker-navy">CV Cá nhân (PDF) <span className="text-banker-orange">*</span></label>
+                <label className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[12px] border border-dashed border-banker-orange/30 bg-banker-orange/5 text-sm font-medium text-banker-orange hover:bg-banker-orange/10">
+                  <UploadCloud className="h-4 w-4" />
+                  {cvFile ? cvFile.filename : "Tải lên CV"}
+                  <input type="file" accept=".pdf" className="hidden" onChange={(e) => handleFile(e, "cv_file")} />
+                </label>
+                {!cvFile && <FieldError message="Vui lòng tải lên CV" />}
+              </div>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-3">
-              <div>
-                <label className="mb-2 block text-sm font-bold text-banker-navy">Trường đại học <span className="text-banker-orange">*</span></label>
-                <Input {...register("university")} placeholder="ĐH Ngoại thương" className="h-12 rounded-[12px]" />
-                <FieldError message={errors.university?.message} />
-              </div>
+              <div className="grid gap-5 md:grid-cols-3">
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Trường đại học <span className="text-banker-orange">*</span></label>
+                  <Input {...register("university")} placeholder="ĐH Ngoại thương" className="h-12 rounded-[12px]" />
+                  <FieldError message={errors.university?.message} />
+                </div>
               <div>
                 <label className="mb-2 block text-sm font-bold text-banker-navy">Chuyên ngành <span className="text-banker-orange">*</span></label>
                 <Input {...register("major")} placeholder="Kinh tế quốc tế" className="h-12 rounded-[12px]" />
@@ -320,8 +318,10 @@ export function RegistrationForm() {
                 <FieldError message={errors.year?.message} />
               </div>
             </div>
-          </motion.div>
+          </>
         )}
+      </motion.div>
+    )}
 
         {/* STEP 3 (ONLY FOR TEAM): THÔNG TIN CÁC THÀNH VIÊN */}
         {step === 3 && regType === "Đồng đội" && (
@@ -331,8 +331,63 @@ export function RegistrationForm() {
                 III. THÔNG TIN THÀNH VIÊN
               </h3>
               <h2 className="mt-2 text-2xl md:text-3xl font-black text-banker-navy">
-                Cập nhật thông tin {teamSize === "4" ? "3" : "2"} thành viên
+                Cập nhật thông tin {teamSize === "4" ? "4" : "3"} thành viên
               </h2>
+            </div>
+
+            {/* Nhóm trưởng */}
+            <div className="rounded-[16px] border-2 border-banker-orange bg-banker-orange/5 p-6 shadow-sm">
+              <h4 className="mb-4 text-xl font-black text-banker-orange">Nhóm trưởng</h4>
+              <div className="grid gap-5 md:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Họ và tên <span className="text-banker-orange">*</span></label>
+                  <Input {...register("full_name")} placeholder="Nguyễn Văn A" className="h-12 rounded-[12px] bg-white" />
+                  <FieldError message={errors.full_name?.message} />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Số điện thoại <span className="text-banker-orange">*</span></label>
+                  <Input {...register("phone")} placeholder="09xx xxx xxx" className="h-12 rounded-[12px] bg-white" />
+                  <FieldError message={errors.phone?.message} />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Địa chỉ email <span className="text-banker-orange">*</span></label>
+                  <Input {...register("email")} type="email" placeholder="email@example.com" className="h-12 rounded-[12px] bg-white" />
+                  <FieldError message={errors.email?.message} />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Ngày sinh <span className="text-banker-orange">*</span></label>
+                  <Input {...register("birth_date")} placeholder="DD/MM/YYYY" className="h-12 rounded-[12px] bg-white" />
+                  <FieldError message={errors.birth_date?.message} />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Link Facebook <span className="text-banker-orange">*</span></label>
+                  <Input {...register("facebook_url")} placeholder="https://facebook.com/..." className="h-12 rounded-[12px] bg-white" />
+                  <FieldError message={errors.facebook_url?.message} />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Trường đại học <span className="text-banker-orange">*</span></label>
+                  <Input {...register("university")} placeholder="ĐH Ngoại thương" className="h-12 rounded-[12px] bg-white" />
+                  <FieldError message={errors.university?.message} />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Chuyên ngành <span className="text-banker-orange">*</span></label>
+                  <Input {...register("major")} placeholder="Kinh tế quốc tế" className="h-12 rounded-[12px] bg-white" />
+                  <FieldError message={errors.major?.message} />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Năm học <span className="text-banker-orange">*</span></label>
+                  <select
+                    {...register("year")}
+                    className="w-full h-12 rounded-[12px] border border-input bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  >
+                    <option value="">Chọn năm học</option>
+                    {studentYearOptions.map((opt) => (
+                      <option key={opt} value={opt}>{opt}</option>
+                    ))}
+                  </select>
+                  <FieldError message={errors.year?.message} />
+                </div>
+              </div>
             </div>
 
             {[
