@@ -102,60 +102,62 @@ export const speakers = [
   }
 ];
 
-export type SponsorLogo = {
+export interface SponsorLogo {
   name: string;
   src: string;
+  href?: string;
 };
 
 export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   {
     tier: "Đơn vị tổ chức",
     logos: [
-      { name: "FTU", src: "/images/sponsors/ftu.png" },
-      { name: "Đoàn TNCS HCM", src: "/images/sponsors/doan_red.png" },
-      { name: "FBN", src: "/images/sponsors/fbn.png" }
+      { name: "FTU", src: "/images/sponsors/ftu.png", href: "https://ftu.edu.vn/" },
+      { name: "Đoàn TNCS HCM", src: "/images/sponsors/doan_red.png", href: "https://doanthanhnien.vn/" },
+      { name: "FBN", src: "/images/sponsors/fbn.png", href: "https://www.facebook.com/fbn.ftu/" }
     ]
   },
   {
     tier: "Nhà tài trợ Kim Cương",
-    logos: [{ name: "MSB", src: "/images/msb-logo.png" }]
+    logos: [{ name: "MSB", src: "/images/msb-logo.png", href: "https://www.msb.com.vn/" }]
   },
   {
     tier: "Nhà tài trợ Đồng",
-    logos: [{ name: "SAPP", src: "/images/sponsors/sapp.png" }]
+    logos: [{ name: "SAPP", src: "/images/sponsors/sapp.png", href: "https://sapp.edu.vn/" }]
   },
   {
     tier: "Nhà tài trợ Hiện vật",
     logos: [
-      { name: "Hemera", src: "/images/sponsors/hemera_black.png" },
+      { name: "Hemera", src: "/images/sponsors/hemera_black.png", href: "https://www.facebook.com/HemeraMedia" },
       { name: "86 HSK", src: "/images/sponsors/86hsk.jpg" },
       { name: "UniWrite", src: "/images/sponsors/uniwrite.png" },
       { name: "10 Education", src: "/images/sponsors/ten_education.png" },
-      { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png" },
+      { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png", href: "https://tocotocotea.com/" },
       { name: "Onemore", src: "/images/sponsors/onemore_3.png" }
     ]
   },
   {
     tier: "Bảo trợ chuyên môn",
     logos: [
-      { name: "MSB", src: "/images/msb-logo.png" },
+      { name: "MSB", src: "/images/msb-logo.png", href: "https://www.msb.com.vn/" },
       { name: "MCNA", src: "/images/sponsors/mcna.png" },
-      { name: "Tingee", src: "/images/sponsors/tingee_new.png" },
-      { name: "FiinGroup", src: "/images/sponsors/fiingroup.png" }
+      { name: "Tingee", src: "/images/sponsors/tingee_new.png", href: "https://tingee.vn/" },
+      { name: "FiinGroup", src: "/images/sponsors/fiingroup.png", href: "https://fiingroup.vn/" },
+      { name: "FBF", src: "/images/sponsors/fbf-bieutuong.png", href: "http://fbf.ftu.edu.vn/" }
     ]
   },
   {
     tier: "Bảo trợ truyền thông",
     logos: [
-      { name: "Edu2Review", src: "/images/sponsors/edu2review_1.png" },
-      { name: "Eduwing Global", src: "/images/sponsors/edu2review_2.png" }
+      { name: "Edu2Review", src: "/images/sponsors/edu2review_new.png", href: "https://edu2review.com/" },
+      { name: "Eduwing Global", src: "/images/sponsors/edu2review_2.png", href: "https://eduwing.vn/" }
     ]
   },
   {
     tier: "Đối tác Đồng hành",
     logos: [
       { name: "MCNA", src: "/images/sponsors/mcna.png" },
-      { name: "TWINGS", src: "/images/sponsors/twings.svg" }
+      { name: "TWINGS", src: "/images/sponsors/twings_new.png", href: "https://twings.vn/" }
     ]
   },
   {
@@ -171,7 +173,7 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   },
   {
     tier: "Tài trợ Nền tảng",
-    logos: [{ name: "Tingee", src: "/images/sponsors/tingee.png" }]
+    logos: [{ name: "Tingee", src: "/images/sponsors/tingee_new.png", href: "https://tingee.vn/" }]
   },
   {
     tier: "Bảo trợ Hình ảnh",

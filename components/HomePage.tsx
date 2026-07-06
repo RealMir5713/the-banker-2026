@@ -478,11 +478,8 @@ function SponsorsSection() {
                   {tier.tier}
                 </h3>
                 <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
-                  {tier.logos.map((logo, logoIndex) => (
-                    <div
-                      className="flex items-center justify-center transition hover:scale-105"
-                      key={`${logo.name}-${logoIndex}`}
-                    >
+                  {tier.logos.map((logo, logoIndex) => {
+                    const ImageEl = (
                       <img
                         alt={logo.name}
                         className={cn(
@@ -493,8 +490,23 @@ function SponsorsSection() {
                         )}
                         src={logo.src}
                       />
-                    </div>
-                  ))}
+                    );
+
+                    return (
+                      <div
+                        className="flex items-center justify-center transition hover:scale-105"
+                        key={`${logo.name}-${logoIndex}`}
+                      >
+                        {logo.href ? (
+                          <a href={logo.href} target="_blank" rel="noopener noreferrer" className="block">
+                            {ImageEl}
+                          </a>
+                        ) : (
+                          ImageEl
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </Reveal>
