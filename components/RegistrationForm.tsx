@@ -117,7 +117,7 @@ export function RegistrationForm() {
 
   const handleFile = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: "cv_file" | "team_cv_file"
+    field: "cv_file"
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -184,6 +184,56 @@ export function RegistrationForm() {
     setValue("proof_images", newImages, { shouldValidate: true });
   };
 
+  const handleTeamCvFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    setIsSubmitting(true);
+    try {
+      const currentFiles = watch("team_cv_files") || [];
+      const newFiles = [...currentFiles];
+
+      for (const file of files) {
+        if (newFiles.length >= 4) {
+          alert("Tối đa 4 file");
+          break;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+          alert(`File ${file.name} vượt quá 2MB. Vui lòng nén file.`);
+          continue;
+        }
+
+        const base64String = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve((reader.result as string).split(",")[1]);
+          reader.onerror = reject;
+        });
+
+        newFiles.push({
+          filename: file.name,
+          mimeType: file.type || "application/octet-stream",
+          base64: base64String
+        });
+      }
+
+      setValue("team_cv_files", newFiles, { shouldValidate: true });
+    } catch (err) {
+      console.error(err);
+      alert("Có lỗi khi đọc file. Vui lòng thử lại.");
+    } finally {
+      setIsSubmitting(false);
+      e.target.value = "";
+    }
+  };
+
+  const removeTeamCvFile = (index: number) => {
+    const currentFiles = watch("team_cv_files") || [];
+    const newFiles = [...currentFiles];
+    newFiles.splice(index, 1);
+    setValue("team_cv_files", newFiles, { shouldValidate: true });
+  };
+
   const onSubmit = async (data: RegistrationInput) => {
     setIsSubmitting(true);
     setError(null);
@@ -231,7 +281,7 @@ export function RegistrationForm() {
   }
 
   const cvFile = watch("cv_file");
-  const teamCvFile = watch("team_cv_file");
+  const teamCvFiles = watch("team_cv_files") || [];
   const proofImages = watch("proof_images") || [];
 
   const totalSteps = regType === "Cá nhân" ? 3 : 4;
@@ -409,9 +459,9 @@ export function RegistrationForm() {
               </h2>
             </div>
 
-            {/* Nhóm trưởng */}
+            {/* Thành viên A */}
             <div className="rounded-[16px] border-2 border-banker-orange bg-banker-orange/5 p-6 shadow-sm">
-              <h4 className="mb-4 text-xl font-black text-banker-orange">Nhóm trưởng</h4>
+              <h4 className="mb-4 text-xl font-black text-banker-orange">Thành viên A</h4>
               <div className="grid gap-5 md:grid-cols-2">
                 <div>
                   <label className="mb-2 block text-sm font-bold text-banker-navy">Họ và tên <span className="text-banker-orange">*</span></label>
@@ -465,17 +515,36 @@ export function RegistrationForm() {
             </div>
 
             {[
-              { id: "a", title: "Thành viên A" },
               { id: "b", title: "Thành viên B" },
               ...(teamSize === "4" ? [{ id: "c", title: "Thành viên C" }] : [])
             ].map((member) => (
               <div key={member.id} className="rounded-[16px] border border-banker-orange/20 p-6 shadow-sm">
                 <h4 className="mb-4 text-lg font-bold text-banker-navy">{member.title}</h4>
                 <div className="grid gap-5 md:grid-cols-2">
-                  <div className="md:col-span-2">
+                  <div>
                     <label className="mb-2 block text-sm font-bold text-banker-navy">Họ và tên <span className="text-banker-orange">*</span></label>
                     <Input {...register(`member_${member.id}_name` as any)} placeholder="Nguyễn Văn A" className="h-12 rounded-[12px]" />
                     <FieldError message={(errors as any)[`member_${member.id}_name`]?.message} />
+                  </div>
+                  <div>
+                    <label className="mb-2 block text-sm font-bold text-banker-navy">Số điện thoại <span className="text-banker-orange">*</span></label>
+                    <Input {...register(`member_${member.id}_phone` as any)} placeholder="09xx xxx xxx" className="h-12 rounded-[12px]" />
+                    <FieldError message={(errors as any)[`member_${member.id}_phone`]?.message} />
+                  </div>
+                  <div>
+                    <label className="mb-2 block text-sm font-bold text-banker-navy">Địa chỉ email <span className="text-banker-orange">*</span></label>
+                    <Input {...register(`member_${member.id}_email` as any)} type="email" placeholder="email@example.com" className="h-12 rounded-[12px]" />
+                    <FieldError message={(errors as any)[`member_${member.id}_email`]?.message} />
+                  </div>
+                  <div>
+                    <label className="mb-2 block text-sm font-bold text-banker-navy">Ngày sinh <span className="text-banker-orange">*</span></label>
+                    <Input {...register(`member_${member.id}_birth_date` as any)} placeholder="DD/MM/YYYY" className="h-12 rounded-[12px]" />
+                    <FieldError message={(errors as any)[`member_${member.id}_birth_date`]?.message} />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="mb-2 block text-sm font-bold text-banker-navy">Link Facebook <span className="text-banker-orange">*</span></label>
+                    <Input {...register(`member_${member.id}_facebook_url` as any)} placeholder="https://facebook.com/..." className="h-12 rounded-[12px]" />
+                    <FieldError message={(errors as any)[`member_${member.id}_facebook_url`]?.message} />
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-bold text-banker-navy">Trường đại học <span className="text-banker-orange">*</span></label>
@@ -575,19 +644,49 @@ export function RegistrationForm() {
               {regType === "Đồng đội" && (
                 <div className="md:col-span-2">
                   <label className="mb-2 block text-sm font-bold text-banker-navy">
-                    CV tổng hợp của nhóm (PDF) <span className="text-banker-orange">*</span>
+                    CV tổng hợp của nhóm (PDF hoặc ZIP, tối đa 4 file) <span className="text-banker-orange">*</span>
                   </label>
-                  <label className="flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-[12px] border border-dashed border-banker-orange/30 bg-banker-orange/5 text-sm font-medium text-banker-orange hover:bg-banker-orange/10 transition">
-                    <UploadCloud className="h-4 w-4" />
-                    {teamCvFile ? teamCvFile.filename : "Tải lên file CV của nhóm (.pdf)"}
+                  <label className="flex min-h-24 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[12px] border border-dashed border-banker-orange/30 bg-banker-orange/5 p-4 text-center transition hover:border-banker-orange hover:bg-banker-orange/10">
                     <input
                       type="file"
-                      accept=".pdf"
+                      accept=".pdf,.zip"
+                      multiple
                       className="hidden"
-                      onChange={(e) => handleFile(e, "team_cv_file")}
+                      onChange={handleTeamCvFiles}
                     />
+                    <UploadCloud className="h-6 w-6 text-banker-orange" />
+                    <span className="text-sm font-bold text-banker-navy">
+                      Tải lên file CV của nhóm (.pdf, .zip)
+                    </span>
+                    <span className="mt-1 text-xs leading-5 text-banker-navy/55">
+                      Tối đa 4 file. Tối đa 2MB/file.
+                    </span>
                   </label>
-                  <FieldError message={(errors as any).team_cv_file?.message} />
+
+                  {teamCvFiles.length > 0 && (
+                    <ul className="mt-4 space-y-2">
+                      {teamCvFiles.map((f: any, index: number) => (
+                        <li
+                          key={index}
+                          className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 shadow-sm"
+                        >
+                          <div className="flex items-center space-x-3 overflow-hidden">
+                            <span className="truncate text-sm font-medium text-gray-700">
+                              {f.filename}
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeTeamCvFile(index)}
+                            className="ml-4 rounded-full p-1 text-gray-400 hover:bg-red-50 hover:text-red-500"
+                          >
+                            <X className="h-5 w-5" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <FieldError message={(errors as any).team_cv_files?.message} />
                 </div>
               )}
               <div className="md:col-span-2">

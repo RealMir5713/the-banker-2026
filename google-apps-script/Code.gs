@@ -34,18 +34,30 @@ const HEADERS = [
   "Trường (Cá nhân/NT)",
   "Chuyên ngành (Cá nhân/NT)",
   "Năm học (Cá nhân/NT)",
-  "Thành viên A",
-  "Trường A",
-  "Chuyên ngành A",
-  "Năm học A",
-  "Thành viên B",
+  "Thành viên B (Họ Tên)",
+  "SĐT B",
+  "Email B",
+  "Ngày sinh B",
+  "Facebook B",
   "Trường B",
   "Chuyên ngành B",
   "Năm học B",
-  "Thành viên C",
+  "Thành viên C (Họ Tên)",
+  "SĐT C",
+  "Email C",
+  "Ngày sinh C",
+  "Facebook C",
   "Trường C",
   "Chuyên ngành C",
   "Năm học C",
+  "Thành viên D (Họ Tên)",
+  "SĐT D",
+  "Email D",
+  "Ngày sinh D",
+  "Facebook D",
+  "Trường D",
+  "Chuyên ngành D",
+  "Năm học D",
   "Link minh chứng",
   "File minh chứng",
   "Nguồn biết đến",
@@ -76,10 +88,15 @@ function doPost(e) {
         cvUrl = saveFile_(folder, payload.cv_file, payload.full_name + "_CV");
       }
 
-      // Team CV (for team registrations)
-      if (payload.team_cv_file && payload.team_cv_file.base64) {
-        var teamCvUrl = saveFile_(folder, payload.team_cv_file, (payload.team_name || payload.full_name) + "_TeamCV");
-        cvUrl = cvUrl ? cvUrl + "\n" + teamCvUrl : teamCvUrl;
+      // Team CVs (for team registrations)
+      if (payload.team_cv_files && payload.team_cv_files.length > 0) {
+        var tCvUrls = [];
+        for (var k = 0; k < payload.team_cv_files.length; k++) {
+          var tUrl = saveFile_(folder, payload.team_cv_files[k], (payload.team_name || payload.full_name) + "_TeamCV_" + (k+1));
+          tCvUrls.push(tUrl);
+        }
+        var teamCvUrlStr = tCvUrls.join("\n");
+        cvUrl = cvUrl ? cvUrl + "\n" + teamCvUrlStr : teamCvUrlStr;
       }
       
       if (payload.proof_images && payload.proof_images.length > 0) {
@@ -106,14 +123,26 @@ function doPost(e) {
       payload.major                      || "",
       payload.year                       || "",
       payload.member_a_name              || "",
+      payload.member_a_phone             || "",
+      payload.member_a_email             || "",
+      payload.member_a_birth_date        || "",
+      payload.member_a_facebook_url      || "",
       payload.member_a_university        || "",
       payload.member_a_major             || "",
       payload.member_a_year              || "",
       payload.member_b_name              || "",
+      payload.member_b_phone             || "",
+      payload.member_b_email             || "",
+      payload.member_b_birth_date        || "",
+      payload.member_b_facebook_url      || "",
       payload.member_b_university        || "",
       payload.member_b_major             || "",
       payload.member_b_year              || "",
       payload.member_c_name              || "",
+      payload.member_c_phone             || "",
+      payload.member_c_email             || "",
+      payload.member_c_birth_date        || "",
+      payload.member_c_facebook_url      || "",
       payload.member_c_university        || "",
       payload.member_c_major             || "",
       payload.member_c_year              || "",

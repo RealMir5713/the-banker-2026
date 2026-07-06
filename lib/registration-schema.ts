@@ -40,25 +40,37 @@ export const registrationSchema = z.object({
   
   // Team Member A
   member_a_name: z.string().trim().min(2, "Vui lòng nhập tên thành viên").optional(),
+  member_a_phone: z.string().trim().regex(phoneRegex, "SĐT chưa đúng định dạng").optional(),
+  member_a_email: z.string().trim().email("Email chưa đúng").optional(),
+  member_a_birth_date: z.string().trim().min(1, "Vui lòng chọn ngày sinh").optional(),
+  member_a_facebook_url: z.string().trim().min(3, "Vui lòng nhập link FB").optional(),
   member_a_university: z.string().trim().min(2, "Vui lòng nhập trường").optional(),
   member_a_major: z.string().trim().min(2, "Vui lòng nhập chuyên ngành").optional(),
   member_a_year: z.enum(studentYearOptions).optional(),
 
   // Team Member B
   member_b_name: z.string().trim().min(2, "Vui lòng nhập tên thành viên").optional(),
+  member_b_phone: z.string().trim().regex(phoneRegex, "SĐT chưa đúng định dạng").optional(),
+  member_b_email: z.string().trim().email("Email chưa đúng").optional(),
+  member_b_birth_date: z.string().trim().min(1, "Vui lòng chọn ngày sinh").optional(),
+  member_b_facebook_url: z.string().trim().min(3, "Vui lòng nhập link FB").optional(),
   member_b_university: z.string().trim().min(2, "Vui lòng nhập trường").optional(),
   member_b_major: z.string().trim().min(2, "Vui lòng nhập chuyên ngành").optional(),
   member_b_year: z.enum(studentYearOptions).optional(),
 
   // Team Member C
   member_c_name: z.string().trim().min(2, "Vui lòng nhập tên thành viên").optional(),
+  member_c_phone: z.string().trim().regex(phoneRegex, "SĐT chưa đúng định dạng").optional(),
+  member_c_email: z.string().trim().email("Email chưa đúng").optional(),
+  member_c_birth_date: z.string().trim().min(1, "Vui lòng chọn ngày sinh").optional(),
+  member_c_facebook_url: z.string().trim().min(3, "Vui lòng nhập link FB").optional(),
   member_c_university: z.string().trim().min(2, "Vui lòng nhập trường").optional(),
   member_c_major: z.string().trim().min(2, "Vui lòng nhập chuyên ngành").optional(),
   member_c_year: z.enum(studentYearOptions).optional(),
 
   // -- FINAL INFO --
   cv_file: fileSchema.optional(), // for individual
-  team_cv_file: fileSchema.optional(), // for team (single combined CV/portfolio PDF)
+  team_cv_files: z.array(fileSchema).max(4, "Tối đa 4 file").optional(), // for team
   proof_images: z.array(fileSchema)
     .min(1, "Vui lòng tải lên ít nhất 1 ảnh minh chứng (Like/Share/Follow)")
     .max(5, "Tối đa 5 ảnh minh chứng"),
@@ -78,14 +90,46 @@ export const registrationSchema = z.object({
     if (!data.member_a_name) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập tên thành viên A", path: ["member_a_name"] });
     }
+    if (!data.member_a_phone || !phoneRegex.test(data.member_a_phone)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "SĐT chưa đúng", path: ["member_a_phone"] });
+    }
+    if (!data.member_a_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.member_a_email)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Email chưa đúng", path: ["member_a_email"] });
+    }
+    if (!data.member_a_university) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập trường", path: ["member_a_university"] });
+    }
+
     if (!data.member_b_name) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập tên thành viên B", path: ["member_b_name"] });
     }
-    if (data.team_size === "4" && !data.member_c_name) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập tên thành viên C", path: ["member_c_name"] });
+    if (!data.member_b_phone || !phoneRegex.test(data.member_b_phone)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "SĐT chưa đúng", path: ["member_b_phone"] });
     }
-    if (!data.team_cv_file) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng tải lên CV tổng hợp của nhóm (PDF)", path: ["team_cv_file"] });
+    if (!data.member_b_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.member_b_email)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Email chưa đúng", path: ["member_b_email"] });
+    }
+    if (!data.member_b_university) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập trường", path: ["member_b_university"] });
+    }
+
+    if (data.team_size === "4") {
+      if (!data.member_c_name) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập tên thành viên C", path: ["member_c_name"] });
+      }
+      if (!data.member_c_phone || !phoneRegex.test(data.member_c_phone)) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "SĐT chưa đúng", path: ["member_c_phone"] });
+      }
+      if (!data.member_c_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.member_c_email)) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Email chưa đúng", path: ["member_c_email"] });
+      }
+      if (!data.member_c_university) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập trường", path: ["member_c_university"] });
+      }
+    }
+    
+    if (!data.team_cv_files || data.team_cv_files.length === 0) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng tải lên CV tổng hợp của nhóm (PDF/ZIP)", path: ["team_cv_files"] });
     }
   }
 
