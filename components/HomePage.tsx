@@ -487,7 +487,7 @@ function SponsorsSection() {
                           logo.name === "MSB" ? "h-14 sm:h-16" : "",
                           logo.name === "SAPP" ? "h-14 sm:h-16 scale-125" : "",
                           logo.name === "FBN" ? "scale-[1.5]" : "",
-                          logo.name === "TWINGS" ? "scale-[1.5]" : "",
+                          logo.name === "TWINGS" ? "scale-110" : "",
                           logo.name === "Tingee" ? "h-14 sm:h-16 scale-125" : "",
                           logo.name === "FBF" ? "h-16 sm:h-20" : ""
                         )}
