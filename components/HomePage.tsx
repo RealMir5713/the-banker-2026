@@ -475,21 +475,21 @@ function SponsorsSection() {
             {sponsorTiers.slice(0, 2).map((tier, index) => (
               <Reveal delay={index * 0.08} key={tier.tier}>
                 <div className="h-full rounded-[8px] border border-white/70 bg-white/58 p-5 shadow-sm backdrop-blur-xl">
-                  <div className="mb-4 flex items-center gap-3">
+                  <div className="mb-4 flex items-center justify-center gap-3">
                     <span className="h-2.5 w-2.5 rounded-full bg-banker-orange shadow-glow" />
-                    <h3 className="text-lg font-black text-banker-navy">
+                    <h3 className="text-lg font-black text-banker-navy text-center">
                       {tier.tier}
                     </h3>
                   </div>
-                  <div className="flex items-center justify-start py-2">
+                  <div className="flex items-center justify-center py-4">
                     {tier.logos.map((logo, logoIndex) => (
                       <div 
                         key={`${logo.name}-${logoIndex}`}
-                        className="flex h-36 w-full md:w-auto min-w-[240px] items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white px-8 shadow-sm backdrop-blur-xl"
+                        className="flex h-28 w-full items-center justify-center"
                       >
                         <img
                           alt={logo.name}
-                          className="max-h-24 max-w-[16rem] object-contain mix-blend-multiply"
+                          className="h-20 w-auto max-w-full object-contain mix-blend-multiply"
                           src={logo.src}
                         />
                       </div>
@@ -503,21 +503,21 @@ function SponsorsSection() {
           {sponsorTiers.slice(2).map((tier, index) => (
             <Reveal delay={0.16 + index * 0.08} key={tier.tier}>
               <div className="rounded-[8px] border border-white/70 bg-white/58 p-5 shadow-sm backdrop-blur-xl">
-                <div className="mb-4 flex items-center gap-3">
+                <div className="mb-6 flex items-center justify-center gap-3">
                   <span className="h-2.5 w-2.5 rounded-full bg-banker-orange shadow-glow" />
-                  <h3 className="text-lg font-black text-banker-navy">
+                  <h3 className="text-lg font-black text-banker-navy text-center">
                     {tier.tier}
                   </h3>
                 </div>
-                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 py-2">
+                <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-14 py-4">
                   {tier.logos.map((logo, logoIndex) => (
                     <div
-                      className="flex h-24 flex-1 md:flex-none min-w-[180px] items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white p-3 shadow-sm backdrop-blur-xl transition hover:border-banker-orange/30"
+                      className="flex items-center justify-center transition hover:scale-105"
                       key={`${logo.name}-${logoIndex}`}
                     >
                       <img
                         alt={logo.name}
-                        className="max-h-16 max-w-[12rem] object-contain mix-blend-multiply"
+                        className="h-14 w-auto max-w-[14rem] object-contain mix-blend-multiply"
                         src={logo.src}
                       />
                     </div>
