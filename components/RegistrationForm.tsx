@@ -204,7 +204,7 @@ export function RegistrationForm() {
         </p>
         <div className="mt-8 rounded-xl bg-blue-50 p-6 ring-1 ring-blue-100">
           <p className="mb-4 font-medium text-banker-navy">
-            Mời bạn tham gia Group Cộng đồng dành riêng cho Thí sinh để cập nhật thông tin và thảo luận:
+            <strong>Bạn hãy tham gia</strong> Group Cộng đồng dành riêng cho Thí sinh để cập nhật thông tin và thảo luận:
           </p>
           <a 
             href="https://www.facebook.com/share/g/1ChBb1u7NC/" 
