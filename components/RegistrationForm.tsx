@@ -202,6 +202,19 @@ export function RegistrationForm() {
           Cảm ơn bạn đã đăng ký tham gia <strong>The Banker 2026</strong>. 
           Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất. Hãy thường xuyên kiểm tra email nhé!
         </p>
+        <div className="mt-8 rounded-xl bg-blue-50 p-6 ring-1 ring-blue-100">
+          <p className="mb-4 font-medium text-banker-navy">
+            Mời bạn tham gia Group Cộng đồng dành riêng cho Thí sinh để cập nhật thông tin và thảo luận:
+          </p>
+          <a 
+            href="https://www.facebook.com/share/g/1ChBb1u7NC/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-[#1877F2] px-6 py-3 font-bold text-white transition hover:bg-[#1877F2]/90 shadow-sm"
+          >
+            Tham gia Facebook Group
+          </a>
+        </div>
       </motion.div>
     );
   }
