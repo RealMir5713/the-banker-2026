@@ -485,11 +485,11 @@ function SponsorsSection() {
                     {tier.logos.map((logo, logoIndex) => (
                       <div 
                         key={`${logo.name}-${logoIndex}`}
-                        className="flex h-32 w-full md:w-auto min-w-[240px] items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white px-8 shadow-sm backdrop-blur-xl"
+                        className="flex h-36 w-full md:w-auto min-w-[240px] items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white px-8 shadow-sm backdrop-blur-xl"
                       >
                         <img
                           alt={logo.name}
-                          className="max-h-20 max-w-full object-contain mix-blend-multiply"
+                          className="max-h-24 max-w-[16rem] object-contain mix-blend-multiply"
                           src={logo.src}
                         />
                       </div>
@@ -512,12 +512,12 @@ function SponsorsSection() {
                 <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 py-2">
                   {tier.logos.map((logo, logoIndex) => (
                     <div
-                      className="flex h-20 flex-1 md:flex-none min-w-[160px] items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white px-5 shadow-sm backdrop-blur-xl transition hover:border-banker-orange/30"
+                      className="flex h-24 flex-1 md:flex-none min-w-[180px] items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white p-3 shadow-sm backdrop-blur-xl transition hover:border-banker-orange/30"
                       key={`${logo.name}-${logoIndex}`}
                     >
                       <img
                         alt={logo.name}
-                        className="max-h-12 max-w-[10rem] object-contain mix-blend-multiply"
+                        className="max-h-16 max-w-[12rem] object-contain mix-blend-multiply"
                         src={logo.src}
                       />
                     </div>
@@ -538,11 +538,11 @@ function RegistrationSection() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,107,0,0.18),transparent_30rem),radial-gradient(circle_at_80%_70%,rgba(217,164,65,0.14),transparent_30rem)]" />
       <div className="section-shell relative z-10">
         <div className="text-center mb-10">
-          <h2 className="text-[28px] md:text-4xl font-black uppercase text-[#355fb5] tracking-wide">
+          <h2 className="text-[28px] md:text-4xl font-black uppercase text-banker-navy tracking-wide">
             Đăng ký tham dự đêm chung kết<br/>
             The Banker 2026
           </h2>
-          <p className="mt-4 text-base md:text-lg font-bold uppercase text-[#355fb5]">
+          <p className="mt-4 text-base md:text-lg font-bold uppercase text-banker-navy">
             Phát triển kinh doanh ngân hàng trên nền tảng số
           </p>
         </div>
