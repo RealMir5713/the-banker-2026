@@ -603,7 +603,7 @@ function RegistrationSection() {
         <SectionHeading
           description="Hoàn tất thông tin để Ban tổ chức xác nhận chỗ và gửi hướng dẫn truy cập webinar."
           eyebrow="Registration"
-          title="Đăng ký xem webinar trực tiếp"
+          title="Đăng ký xem webinar trực tuyến"
         />
         <Reveal>
           <div className="glass-border rounded-[8px] border border-white/75 bg-white/[0.72] p-5 shadow-premium backdrop-blur-2xl md:p-8">
