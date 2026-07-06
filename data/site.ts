@@ -140,7 +140,7 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
     logos: [
       { name: "MSB", src: "/images/msb-logo.png" },
       { name: "MCNA", src: "/images/sponsors/mcna.png" },
-      { name: "Tingee", src: "/images/sponsors/tingee.png" },
+      { name: "Tingee", src: "/images/sponsors/tingee_new.png" },
       { name: "FiinGroup", src: "/images/sponsors/fiingroup.png" }
     ]
   },
