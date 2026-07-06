@@ -661,9 +661,7 @@ function SiteFooter() {
                 {
                   label: "Facebook Group",
                   href: "https://www.facebook.com/groups/1803549783273975/"
-                },
-                { label: "Instagram", href: "#trang-chu" },
-                { label: "LinkedIn", href: "#trang-chu" }
+                }
               ].map((item) => (
                 <a
                   className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-sm font-bold text-white/76 transition hover:border-banker-orange/60 hover:text-white"
@@ -687,7 +685,15 @@ function SiteFooter() {
           </div>
         </div>
         <div className="mt-12 border-t border-white/10 pt-6 text-sm text-white/52">
-          © 2026 The Banker. All rights reserved.
+          © 2026 The Banker. All rights reserved. | Made by{" "}
+          <a
+            href="https://www.facebook.com/viet.phan.694890/"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-white transition underline underline-offset-4 decoration-white/20"
+          >
+            Viet Phan
+          </a>
         </div>
       </div>
     </footer>
