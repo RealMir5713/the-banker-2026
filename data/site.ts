@@ -112,17 +112,8 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
     tier: "Đơn vị tổ chức",
     logos: [
       { name: "FTU", src: "/images/sponsors/ftu.png" },
-      { name: "Đoàn TNCS HCM", src: "/images/sponsors/doan.png" },
+      { name: "Đoàn TNCS HCM", src: "/images/sponsors/doan_red.png" },
       { name: "FBN", src: "/images/sponsors/fbn.png" }
-    ]
-  },
-  {
-    tier: "Bảo trợ chuyên môn",
-    logos: [
-      { name: "MSB", src: "/images/msb-logo.png" },
-      { name: "MCNA", src: "/images/sponsors/mcna.png" },
-      { name: "Tingee", src: "/images/sponsors/tingee.png" },
-      { name: "FiinGroup", src: "/images/sponsors/fiingroup.png" }
     ]
   },
   {
@@ -136,12 +127,21 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   {
     tier: "Nhà tài trợ Hiện vật",
     logos: [
-      { name: "Hemera", src: "/images/sponsors/hemera.png" },
+      { name: "Hemera", src: "/images/sponsors/hemera_black.png" },
       { name: "86 HSK", src: "/images/sponsors/86hsk.jpg" },
       { name: "UniWrite", src: "/images/sponsors/uniwrite.png" },
       { name: "10 Education", src: "/images/sponsors/ten_education.png" },
       { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png" },
       { name: "Onemore", src: "/images/sponsors/onemore_3.png" }
+    ]
+  },
+  {
+    tier: "Bảo trợ chuyên môn",
+    logos: [
+      { name: "MSB", src: "/images/msb-logo.png" },
+      { name: "MCNA", src: "/images/sponsors/mcna.png" },
+      { name: "Tingee", src: "/images/sponsors/tingee.png" },
+      { name: "FiinGroup", src: "/images/sponsors/fiingroup.png" }
     ]
   },
   {

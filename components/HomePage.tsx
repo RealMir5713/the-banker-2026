@@ -489,7 +489,7 @@ function SponsorsSection() {
                           "h-12 w-auto max-w-[12rem] object-contain mix-blend-multiply sm:h-14",
                           logo.name === "MSB" ? "h-16 sm:h-20" : "",
                           logo.name === "SAPP" ? "h-14 sm:h-16" : "",
-                          logo.name === "Tingee" ? "h-14 sm:h-16 scale-125" : ""
+                          logo.name === "Tingee" ? "h-16 sm:h-20 scale-150" : ""
                         )}
                         src={logo.src}
                       />
