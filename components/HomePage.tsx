@@ -484,10 +484,10 @@ function SponsorsSection() {
                         alt={logo.name}
                         className={cn(
                           "h-12 w-auto max-w-[12rem] object-contain mix-blend-multiply sm:h-14",
-                          logo.name === "MSB" ? "h-16 sm:h-20" : "",
-                          logo.name === "SAPP" ? "h-14 sm:h-16" : "",
-                          logo.name === "Tingee" ? "h-20 sm:h-24 scale-[1.75]" : "",
-                          logo.name === "FBF" ? "h-20 sm:h-24 scale-[2.5]" : ""
+                          logo.name === "MSB" ? "h-14 sm:h-16" : "",
+                          logo.name === "SAPP" ? "h-12 sm:h-14" : "",
+                          logo.name === "Tingee" ? "h-14 sm:h-16 scale-125" : "",
+                          logo.name === "FBF" ? "h-16 sm:h-20 scale-[1.25]" : ""
                         )}
                         src={logo.src}
                       />
