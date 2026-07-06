@@ -58,6 +58,7 @@ export const registrationSchema = z.object({
 
   // -- FINAL INFO --
   cv_file: fileSchema.optional(), // for individual
+  team_cv_file: fileSchema.optional(), // for team (single combined CV/portfolio PDF)
   proof_images: z.array(fileSchema)
     .min(1, "Vui lòng tải lên ít nhất 1 ảnh minh chứng (Like/Share/Follow)")
     .max(5, "Tối đa 5 ảnh minh chứng"),
@@ -82,6 +83,9 @@ export const registrationSchema = z.object({
     }
     if (data.team_size === "4" && !data.member_c_name) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập tên thành viên C", path: ["member_c_name"] });
+    }
+    if (!data.team_cv_file) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng tải lên CV tổng hợp của nhóm (PDF)", path: ["team_cv_file"] });
     }
   }
 

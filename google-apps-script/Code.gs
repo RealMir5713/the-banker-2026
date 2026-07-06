@@ -75,6 +75,12 @@ function doPost(e) {
       if (payload.cv_file && payload.cv_file.base64) {
         cvUrl = saveFile_(folder, payload.cv_file, payload.full_name + "_CV");
       }
+
+      // Team CV (for team registrations)
+      if (payload.team_cv_file && payload.team_cv_file.base64) {
+        var teamCvUrl = saveFile_(folder, payload.team_cv_file, (payload.team_name || payload.full_name) + "_TeamCV");
+        cvUrl = cvUrl ? cvUrl + "\n" + teamCvUrl : teamCvUrl;
+      }
       
       if (payload.proof_images && payload.proof_images.length > 0) {
         var urls = [];

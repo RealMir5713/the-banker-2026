@@ -117,7 +117,7 @@ export function RegistrationForm() {
 
   const handleFile = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: "cv_file"
+    field: "cv_file" | "team_cv_file"
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -231,6 +231,7 @@ export function RegistrationForm() {
   }
 
   const cvFile = watch("cv_file");
+  const teamCvFile = watch("team_cv_file");
   const proofImages = watch("proof_images") || [];
 
   const totalSteps = regType === "Cá nhân" ? 3 : 4;
@@ -569,6 +570,26 @@ export function RegistrationForm() {
                 )}
                 <FieldError message={errors.proof_images?.message} />
               </div>
+
+              {/* CV upload: only for team registration */}
+              {regType === "Đồng đội" && (
+                <div className="md:col-span-2">
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">
+                    CV tổng hợp của nhóm (PDF) <span className="text-banker-orange">*</span>
+                  </label>
+                  <label className="flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-[12px] border border-dashed border-banker-orange/30 bg-banker-orange/5 text-sm font-medium text-banker-orange hover:bg-banker-orange/10 transition">
+                    <UploadCloud className="h-4 w-4" />
+                    {teamCvFile ? teamCvFile.filename : "Tải lên file CV của nhóm (.pdf)"}
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      className="hidden"
+                      onChange={(e) => handleFile(e, "team_cv_file")}
+                    />
+                  </label>
+                  <FieldError message={(errors as any).team_cv_file?.message} />
+                </div>
+              )}
               <div className="md:col-span-2">
                 <label className="mb-2 block text-sm font-bold text-banker-navy">Bạn biết đến cuộc thi từ đâu?</label>
                 <Input {...register("source")} placeholder="Fanpage, Bạn bè, Email..." className="h-12 rounded-[12px]" />
