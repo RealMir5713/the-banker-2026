@@ -135,7 +135,7 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
       { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png", href: "https://tocotocotea.com/" },
       { name: "Onemore", src: "/images/sponsors/onemore_3.png", href: "https://www.facebook.com/profile.php?id=61589440192403" },
       { name: "Edu2Review", src: "/images/sponsors/edu2review_new.png", href: "https://edu2review.com/" },
-      { name: "Eduwing Global", src: "/images/sponsors/edu2review_2.png", href: "https://eduwing.vn/" }
+      { name: "Eduwing Global", src: "/images/sponsors/edu2review_2.png", href: "https://eduwingglobal.com/" }
     ]
   },
   {
