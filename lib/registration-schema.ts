@@ -69,8 +69,8 @@ export const registrationSchema = z.object({
   member_d_year: z.enum(studentYearOptions).optional(),
 
   // -- FINAL INFO --
-  cv_link: z.string().trim().min(5, "Vui lòng nhập link CV").optional(), // for individual
-  team_cv_link: z.string().trim().min(5, "Vui lòng nhập link CV").optional(), // for team
+  cv_link: z.string().trim().optional(), // for individual
+  team_cv_link: z.string().trim().optional(), // for team
   proof_images: z.array(fileSchema)
     .min(1, "Vui lòng tải lên ít nhất 1 ảnh minh chứng (Like/Share/Follow)")
     .max(5, "Tối đa 5 ảnh minh chứng"),
@@ -128,14 +128,6 @@ export const registrationSchema = z.object({
       }
     }
     
-    if (!data.team_cv_link) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng cung cấp link CV tổng hợp của nhóm", path: ["team_cv_link"] });
-    }
-  } else {
-    // Individual registration
-    if (!data.cv_link) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng cung cấp link CV của bạn", path: ["cv_link"] });
-    }
   }
 
   // Common required fields

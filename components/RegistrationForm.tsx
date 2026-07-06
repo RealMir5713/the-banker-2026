@@ -344,7 +344,7 @@ export function RegistrationForm() {
                 <FieldError message={errors.facebook_url?.message} />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-bold text-banker-navy">Link Google Drive CV Cá nhân <span className="text-banker-orange">*</span></label>
+                <label className="mb-2 block text-sm font-bold text-banker-navy">Link Google Drive CV Cá nhân</label>
                 <Input {...register("cv_link")} placeholder="https://drive.google.com/..." className="h-12 rounded-[12px]" />
                 <FieldError message={errors.cv_link?.message} />
               </div>
@@ -578,7 +578,7 @@ export function RegistrationForm() {
               {regType === "Đồng đội" && (
                 <div className="md:col-span-2">
                   <label className="mb-2 block text-sm font-bold text-banker-navy">
-                    Link Google Drive CV tổng hợp của nhóm <span className="text-banker-orange">*</span>
+                    Link Google Drive CV tổng hợp của nhóm
                   </label>
                   <Input {...register("team_cv_link")} placeholder="https://drive.google.com/..." className="h-12 rounded-[12px]" />
                   <FieldError message={(errors as any).team_cv_link?.message} />
