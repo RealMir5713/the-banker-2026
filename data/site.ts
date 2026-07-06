@@ -109,27 +109,29 @@ export type SponsorLogo = {
 
 export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   {
-    tier: "Nhà tài trợ Kim Cương",
-    logos: [{ name: "MSB", src: "/images/msb-logo.png" }]
-  },
-  {
-    tier: "Nhà tài trợ Đồng",
-    logos: [{ name: "SAPP", src: "/images/sponsors/sapp.png" }]
-  },
-  {
     tier: "Đơn vị tổ chức",
     logos: [
-      { name: "FTU", src: "/images/ftu.png" },
-      { name: "Đoàn TNCS HCM", src: "/images/hoisinhvien.png" },
-      { name: "FBN", src: "/images/fbn-logo.png" }
+      { name: "FTU", src: "/images/sponsors/ftu.png" },
+      { name: "Đoàn TNCS HCM", src: "/images/sponsors/doan.png" },
+      { name: "FBN", src: "/images/sponsors/fbn.png" }
     ]
   },
   {
     tier: "Bảo trợ chuyên môn",
     logos: [
       { name: "MSB", src: "/images/msb-logo.png" },
-      { name: "MCNA", src: "/images/sponsors/mcna.png" }
+      { name: "MCNA", src: "/images/sponsors/mcna.png" },
+      { name: "Tingee", src: "/images/sponsors/tingee.png" },
+      { name: "FiinGroup", src: "/images/sponsors/fiingroup.png" }
     ]
+  },
+  {
+    tier: "Nhà tài trợ Kim Cương",
+    logos: [{ name: "MSB", src: "/images/msb-logo.png" }]
+  },
+  {
+    tier: "Nhà tài trợ Đồng",
+    logos: [{ name: "SAPP", src: "/images/sponsors/sapp.png" }]
   },
   {
     tier: "Nhà tài trợ Hiện vật",
@@ -139,7 +141,7 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
       { name: "UniWrite", src: "/images/sponsors/uniwrite.png" },
       { name: "10 Education", src: "/images/sponsors/ten_education.png" },
       { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png" },
-      { name: "Onemore", src: "/images/sponsors/onemore.png" }
+      { name: "Onemore", src: "/images/sponsors/onemore_3.png" }
     ]
   },
   {
@@ -157,7 +159,22 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
     ]
   },
   {
-    tier: "Bảo trợ hình ảnh",
+    tier: "Đối tác Truyền thông",
+    logos: [
+      { name: "IBC", src: "/images/sponsors/ibc.png" },
+      { name: "MCNA", src: "/images/sponsors/mcna.png" },
+      { name: "ECOM CLUB", src: "/images/sponsors/ecom.png" },
+      { name: "YRC", src: "/images/sponsors/yrc.png" },
+      { name: "QEC", src: "/images/sponsors/qec.jpg" },
+      { name: "REC", src: "/images/sponsors/rec.png" }
+    ]
+  },
+  {
+    tier: "Tài trợ Nền tảng",
+    logos: [{ name: "Tingee", src: "/images/sponsors/tingee.png" }]
+  },
+  {
+    tier: "Bảo trợ Hình ảnh",
     logos: [{ name: "FPC", src: "/images/sponsors/fpc.png" }]
   }
 ];
