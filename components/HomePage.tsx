@@ -186,7 +186,7 @@ function HeroSection() {
             initial={{ opacity: 0, y: 24 }}
             transition={{ delay: 0.16, duration: 0.68 }}
           >
-            “Tái định hình tương lai ngân hàng số”
+            “Kiến tạo Ngân hàng Mở”
           </motion.p>
 
           <motion.div
