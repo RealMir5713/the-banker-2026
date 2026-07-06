@@ -459,28 +459,7 @@ function JourneySection() {
 
 
 
-function SponsorMarquee({ logos }: { logos: { name: string; src: string }[] }) {
-  const allLogos = [...logos, ...logos, ...logos];
 
-  return (
-    <div className="hide-scrollbar overflow-hidden">
-      <div className="flex min-w-max animate-marquee gap-6 py-2">
-        {allLogos.map((logo, index) => (
-          <div
-            className="flex h-16 min-w-44 items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white/90 px-5 shadow-sm backdrop-blur-xl"
-            key={`${logo.name}-${index}`}
-          >
-            <img
-              alt={logo.name}
-              className="max-h-11 max-w-[9rem] object-contain"
-              src={logo.src}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function SponsorsSection() {
   return (
@@ -492,8 +471,37 @@ function SponsorsSection() {
           title="Đơn vị đồng hành"
         />
         <div className="space-y-6">
-          {sponsorTiers.map((tier, index) => (
-            <Reveal delay={index * 0.08} key={tier.tier}>
+          <div className="grid gap-6 md:grid-cols-2">
+            {sponsorTiers.slice(0, 2).map((tier, index) => (
+              <Reveal delay={index * 0.08} key={tier.tier}>
+                <div className="h-full rounded-[8px] border border-white/70 bg-white/58 p-5 shadow-sm backdrop-blur-xl">
+                  <div className="mb-4 flex items-center gap-3">
+                    <span className="h-2.5 w-2.5 rounded-full bg-banker-orange shadow-glow" />
+                    <h3 className="text-lg font-black text-banker-navy">
+                      {tier.tier}
+                    </h3>
+                  </div>
+                  <div className="flex items-center justify-start py-2">
+                    {tier.logos.map((logo, logoIndex) => (
+                      <div 
+                        key={`${logo.name}-${logoIndex}`}
+                        className="flex h-32 w-full md:w-auto min-w-[240px] items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white px-8 shadow-sm backdrop-blur-xl"
+                      >
+                        <img
+                          alt={logo.name}
+                          className="max-h-20 max-w-full object-contain mix-blend-multiply"
+                          src={logo.src}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {sponsorTiers.slice(2).map((tier, index) => (
+            <Reveal delay={0.16 + index * 0.08} key={tier.tier}>
               <div className="rounded-[8px] border border-white/70 bg-white/58 p-5 shadow-sm backdrop-blur-xl">
                 <div className="mb-4 flex items-center gap-3">
                   <span className="h-2.5 w-2.5 rounded-full bg-banker-orange shadow-glow" />
@@ -501,7 +509,20 @@ function SponsorsSection() {
                     {tier.tier}
                   </h3>
                 </div>
-                <SponsorMarquee logos={tier.logos} />
+                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 py-2">
+                  {tier.logos.map((logo, logoIndex) => (
+                    <div
+                      className="flex h-20 flex-1 md:flex-none min-w-[160px] items-center justify-center rounded-[8px] border border-banker-orange/12 bg-white px-5 shadow-sm backdrop-blur-xl transition hover:border-banker-orange/30"
+                      key={`${logo.name}-${logoIndex}`}
+                    >
+                      <img
+                        alt={logo.name}
+                        className="max-h-12 max-w-[10rem] object-contain mix-blend-multiply"
+                        src={logo.src}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </Reveal>
           ))}
