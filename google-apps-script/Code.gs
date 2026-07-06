@@ -18,7 +18,7 @@
 // ─── CONFIG ────────────────────────────────────────────────────────────────
 const SHEET_ID        = "1K6SAUiRUFYJuNcb-9SFp7HRdR16-tdZpjFEzbVDmNrY";
 const SHEET_NAME      = "Sheet1";
-const DRIVE_FOLDER_ID = "1rwHJKZOJnrVhfFqdXeNdSiIITyivc5IJ";
+const DRIVE_FOLDER_ID = "1k_Q8SuvmrKlSnjydco3Zu-A9jznsO31O";
 // ────────────────────────────────────────────────────────────────────────────
 
 const HEADERS = [

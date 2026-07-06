@@ -146,6 +146,41 @@ export async function POST(request: Request) {
       throw error;
     }
 
+    // Forward to Google Sheets via Apps Script (best-effort, non-blocking)
+    const webinarGasUrl = process.env.WEBINAR_GOOGLE_APPS_SCRIPT_URL;
+    if (webinarGasUrl) {
+      try {
+        // Build public URLs from the verified Supabase paths
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+        const buildPublicUrl = (path: string) =>
+          `${supabaseUrl}/storage/v1/object/public/webinar-proofs/${path}`;
+
+        const gasPayload = {
+          full_name:          registration.full_name,
+          phone:              registration.phone,
+          email:              registration.email,
+          facebook_url:       registration.facebook_url,
+          university:         registration.university,
+          year:               registration.year,
+          student_id:         registration.student_id,
+          class_info:         registration.class_info,
+          speaker_question:   registration.speaker_question,
+          organizer_message:  registration.organizer_message,
+          proof_post_urls:    proof_post_files.map((f) => buildPublicUrl(f.path)),
+          proof_fanpage_urls: proof_fanpage_files.map((f) => buildPublicUrl(f.path))
+        };
+
+        await fetch(webinarGasUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(gasPayload)
+        });
+      } catch (gasErr) {
+        // GAS failure should not block the user's successful registration
+        console.error("[webinar-register] GAS forwarding failed:", gasErr);
+      }
+    }
+
     return NextResponse.json({
       message: "Đăng ký webinar thành công.",
       registration: data
