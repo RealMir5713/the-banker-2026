@@ -419,14 +419,6 @@ function HeroSection() {
                 </span>
                 <span className="font-black text-banker-navy">Trực tuyến</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-banker-navy/[0.6]">
-                  Quy mô dự kiến
-                </span>
-                <span className="font-black text-banker-navy">
-                  700 - 800 sinh viên
-                </span>
-              </div>
             </div>
           </div>
         </motion.div>
