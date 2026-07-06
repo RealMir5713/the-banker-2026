@@ -36,6 +36,7 @@ export const registrationSchema = z.object({
   
   // -- TEAM INFO --
   team_name: z.string().trim().min(2, "Vui lòng nhập tên nhóm").optional(),
+  team_size: z.enum(["3", "4"]).optional(),
   
   // Team Member A
   member_a_name: z.string().trim().min(2, "Vui lòng nhập tên thành viên").optional(),
@@ -69,13 +70,16 @@ export const registrationSchema = z.object({
     if (!data.team_name) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập tên nhóm", path: ["team_name"] });
     }
+    if (!data.team_size) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng chọn số lượng thành viên", path: ["team_size"] });
+    }
     if (!data.member_a_name) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập tên thành viên A", path: ["member_a_name"] });
     }
     if (!data.member_b_name) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập tên thành viên B", path: ["member_b_name"] });
     }
-    if (!data.member_c_name) {
+    if (data.team_size === "4" && !data.member_c_name) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Vui lòng nhập tên thành viên C", path: ["member_c_name"] });
     }
   }

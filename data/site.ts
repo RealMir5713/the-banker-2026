@@ -137,7 +137,7 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
     tier: "Nhà tài trợ Hiện vật",
     logos: [
       { name: "Hemera", src: "/images/sponsors/hemera.png" },
-      { name: "86 HSK", src: "/images/sponsors/eighty_six_hsk.png" },
+      { name: "86 HSK", src: "/images/sponsors/86hsk.jpg" },
       { name: "UniWrite", src: "/images/sponsors/uniwrite.png" },
       { name: "10 Education", src: "/images/sponsors/ten_education.png" },
       { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png" },
@@ -181,19 +181,31 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
 
 export const faqItems = [
   {
-    question: "Cuộc thi dành cho ai?",
-    answer: "The Banker 2026 mở đăng ký cho sinh viên quan tâm tới tài chính, ngân hàng, dữ liệu, fintech và chuyển đổi số trên phạm vi toàn quốc."
+    question: "Ai đủ điều kiện tham gia cuộc thi?",
+    answer: "Là sinh viên đang theo học tại các trường Đại học, Cao đẳng trên toàn quốc hoặc người đã tốt nghiệp không quá 1 năm có đam mê trong lĩnh vực Kinh tế, Tài chính, Công nghệ thông tin, Dữ liệu."
   },
   {
-    question: "Có mất phí đăng ký dự thi không?",
-    answer: "Cuộc thi không thu phí đăng ký. Thí sinh chỉ cần hoàn tất hồ sơ trên website và theo dõi email xác nhận từ BTC."
+    question: "Có được đăng ký cá nhân không hay bắt buộc theo đội?",
+    answer: "Có thể đăng ký theo cả 2 hình thức cá nhân và đội. Đối với thí sinh đăng ký theo hình thức cá nhân: thực hiện bài test đánh giá kiến thức vòng 1 vào 25/07/2026. Những thí sinh đủ điều kiện sẽ được ghép đội thi sau đó. Đối với thí sinh đăng ký theo hình thức đội: thực hiện bài test vào 26/07/2026."
   },
   {
-    question: "Đăng ký theo cá nhân hay theo nhóm?",
-    answer: "Bạn có thể điền thông tin cá nhân và tên nhóm nếu đã có đội thi. Nếu chưa có đội, BTC có thể hỗ trợ hướng dẫn ghép đội ở các vòng sau tùy thể lệ chính thức."
+    question: "BTC có tổ chức training/mentoring không?",
+    answer: "Có. Trước các vòng 2, 3, sẽ có các buổi training để các thí sinh bước vào vòng thi một cách tự tin nhất. Đặc biệt, 4 đội thi xuất sắc nhất khi bước vào vòng chung kết sẽ được mentor để hoàn thành sản phẩm. Ngoài ra, ở vòng 2 và 3, các thí sinh sẽ có cơ hội tham gia Banking tour và Banking talk để nghe các chuyên gia từ MSB chia sẻ trực tiếp."
   },
   {
-    question: "Cần chuẩn bị minh chứng gì?",
-    answer: "Bạn nên chuẩn bị link minh chứng hình ảnh đã like/share bài viết mở đơn đăng ký cuộc thi, cùng với CV cá nhân (đối với đăng ký cá nhân)."
+    question: "Nếu gặp lỗi khi đăng ký thì phải làm gì?",
+    answer: "Thí sinh có thể liên hệ bộ phận kỹ thuật để được tư vấn qua số điện thoại: 035 303 7888."
+  },
+  {
+    question: "Thí sinh có thể tự tìm, tự tạo và đăng ký đội mình chọn không?",
+    answer: "Có. Thí sinh có thể đăng ký trước theo hình thức 1 đội gồm 3-4 người theo quy định của cuộc thi. Cả đội cần chọn ra 1 đội trưởng để thay mặt đội đăng ký tham gia."
+  },
+  {
+    question: "Những thí sinh không có kiến thức về mặt kỹ thuật, design các sơ đồ API có khả năng tham gia hay không?",
+    answer: "Có. Chỉ cần bạn có đam mê trong các lĩnh vực tài chính, công nghệ nói chung và Open Banking nói riêng thì hoàn toàn phù hợp và có thể đăng ký tham gia cuộc thi. Ngoài ra, các thí sinh còn được tham gia các buổi training để phát triển về kỹ năng và kiến thức để chuẩn bị thật tốt cho bài thi của mình."
+  },
+  {
+    question: "Đội thi cần đáp ứng những yêu cầu gì về cơ cấu và vai trò của các thành viên?",
+    answer: "Đội thi yêu cầu phải có tối thiểu 3 thành viên, tối đa 4 thành viên. Tất cả các thành viên phải đáp ứng đầy đủ điều kiện tham gia cuộc thi và chỉ tham gia vào 1 đội. Ngoài ra, đội phải chọn ra 1 đội trưởng để trao đổi thông tin với BTC."
   }
 ];

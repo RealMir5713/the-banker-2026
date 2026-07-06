@@ -47,6 +47,7 @@ export function RegistrationForm() {
   });
 
   const regType = watch("registration_type");
+  const teamSize = watch("team_size");
 
   const handleNext = async () => {
     let fieldsToValidate: any[] = [];
@@ -57,14 +58,18 @@ export function RegistrationForm() {
       if (regType === "Cá nhân") {
         fieldsToValidate = ["full_name", "phone", "email", "birth_date", "facebook_url", "university", "major", "year", "cv_file"];
       } else {
-        fieldsToValidate = ["team_name", "full_name", "phone", "email", "birth_date", "facebook_url", "university", "major", "year"];
+        fieldsToValidate = ["team_name", "team_size", "full_name", "phone", "email", "birth_date", "facebook_url", "university", "major", "year"];
       }
     } else if (step === 3 && regType === "Đồng đội") {
       fieldsToValidate = [
         "member_a_name", "member_a_university", "member_a_major", "member_a_year",
         "member_b_name", "member_b_university", "member_b_major", "member_b_year",
-        "member_c_name", "member_c_university", "member_c_major", "member_c_year",
       ];
+      if (teamSize === "4") {
+        fieldsToValidate.push(
+          "member_c_name", "member_c_university", "member_c_major", "member_c_year"
+        );
+      }
     }
 
     const isValid = await trigger(fieldsToValidate as any);
@@ -228,10 +233,22 @@ export function RegistrationForm() {
 
             {regType === "Đồng đội" && (
               <div className="grid gap-5 md:grid-cols-2">
-                <div className="md:col-span-2">
+                <div>
                   <label className="mb-2 block text-sm font-bold text-banker-navy">Tên nhóm <span className="text-banker-orange">*</span></label>
                   <Input {...register("team_name")} placeholder="VD: The Avengers" className="h-12 rounded-[12px]" />
                   <FieldError message={errors.team_name?.message} />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-banker-navy">Số lượng thành viên (bao gồm nhóm trưởng) <span className="text-banker-orange">*</span></label>
+                  <select
+                    {...register("team_size")}
+                    className="w-full h-12 rounded-[12px] border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  >
+                    <option value="">Chọn số lượng</option>
+                    <option value="3">3 thành viên</option>
+                    <option value="4">4 thành viên</option>
+                  </select>
+                  <FieldError message={errors.team_size?.message} />
                 </div>
               </div>
             )}
@@ -314,14 +331,14 @@ export function RegistrationForm() {
                 III. THÔNG TIN THÀNH VIÊN
               </h3>
               <h2 className="mt-2 text-2xl md:text-3xl font-black text-banker-navy">
-                Cập nhật thông tin 3 thành viên
+                Cập nhật thông tin {teamSize === "4" ? "3" : "2"} thành viên
               </h2>
             </div>
 
             {[
               { id: "a", title: "Thành viên A" },
               { id: "b", title: "Thành viên B" },
-              { id: "c", title: "Thành viên C" }
+              ...(teamSize === "4" ? [{ id: "c", title: "Thành viên C" }] : [])
             ].map((member) => (
               <div key={member.id} className="rounded-[16px] border border-banker-orange/20 p-6 shadow-sm">
                 <h4 className="mb-4 text-lg font-bold text-banker-navy">{member.title}</h4>
