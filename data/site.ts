@@ -133,7 +133,7 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
       { name: "UniWrite", src: "/images/sponsors/uniwrite.png", href: "https://www.facebook.com/unitutoreasywrite/" },
       { name: "10 Education", src: "/images/sponsors/ten_education.png", href: "https://www.facebook.com/10education/" },
       { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png", href: "https://tocotocotea.com/" },
-      { name: "Onemore", src: "/images/sponsors/onemore_3.png", href: "https://onemore.vn/" }
+      { name: "Onemore", src: "/images/sponsors/onemore_3.png", href: "https://www.facebook.com/profile.php?id=61589440192403" }
     ]
   },
   {
@@ -150,7 +150,8 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
     tier: "Bảo trợ truyền thông",
     logos: [
       { name: "Edu2Review", src: "/images/sponsors/edu2review_new.png", href: "https://edu2review.com/" },
-      { name: "Eduwing Global", src: "/images/sponsors/edu2review_2.png", href: "https://eduwing.vn/" }
+      { name: "Eduwing Global", src: "/images/sponsors/edu2review_2.png", href: "https://eduwing.vn/" },
+      { name: "Advertising Vietnam", src: "/images/sponsors/ad_vietnam.png", href: "https://advertisingvietnam.com" }
     ]
   },
   {
@@ -196,7 +197,7 @@ export const faqItems = [
   },
   {
     question: "Nếu gặp lỗi khi đăng ký thì phải làm gì?",
-    answer: "Thí sinh có thể liên hệ bộ phận kỹ thuật để được tư vấn qua số điện thoại: 035 303 7888."
+    answer: "Thí sinh có thể liên hệ bộ phận kỹ thuật để được tư vấn qua số điện thoại: 0342955344."
   },
   {
     question: "Thí sinh có thể tự tìm, tự tạo và đăng ký đội mình chọn không?",
