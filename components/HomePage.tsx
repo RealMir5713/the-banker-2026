@@ -539,7 +539,7 @@ function RegistrationSection() {
       <div className="section-shell relative z-10">
         <div className="text-center mb-10">
           <h2 className="text-[28px] md:text-4xl font-black uppercase text-banker-navy tracking-wide">
-            Đăng ký tham dự đêm chung kết<br/>
+            Đăng ký dự thi<br/>
             The Banker 2026
           </h2>
           <p className="mt-4 text-base md:text-lg font-bold uppercase text-banker-navy">

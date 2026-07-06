@@ -110,32 +110,55 @@ export type SponsorLogo = {
 export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   {
     tier: "Nhà tài trợ Kim Cương",
-    logos: [
-      { name: "MSB", src: "/images/msb-logo.png" }
-    ]
+    logos: [{ name: "MSB", src: "/images/msb-logo.png" }]
   },
   {
     tier: "Nhà tài trợ Đồng",
+    logos: [{ name: "SAPP", src: "/images/sponsors/sapp.png" }]
+  },
+  {
+    tier: "Đơn vị tổ chức",
     logos: [
-      { name: "SAPP", src: "/images/sponsors/sapp.png" }
+      { name: "FTU", src: "/images/ftu.png" },
+      { name: "Đoàn TNCS HCM", src: "/images/hoisinhvien.png" },
+      { name: "FBN", src: "/images/fbn-logo.png" }
     ]
   },
   {
-    tier: "Đối tác Đồng hành & Truyền thông",
+    tier: "Bảo trợ chuyên môn",
     logos: [
-      { name: "TWINGS", src: "/images/sponsors/twings.svg" },
-      { name: "MCNA Technology School", src: "/images/sponsors/mcna.svg" },
-      { name: "Edu2Review", src: "/images/sponsors/edu2review_1.png" }
+      { name: "MSB", src: "/images/msb-logo.png" },
+      { name: "MCNA", src: "/images/sponsors/mcna.png" }
     ]
   },
   {
     tier: "Nhà tài trợ Hiện vật",
     logos: [
-      { name: "Hemera Souvenirs", src: "/images/sponsors/hemera_1.png" },
-      { name: "UniGroup", src: "/images/sponsors/unigroup.svg" },
+      { name: "Hemera", src: "/images/sponsors/hemera.png" },
+      { name: "86 HSK", src: "/images/sponsors/eighty_six_hsk.png" },
+      { name: "UniWrite", src: "/images/sponsors/uniwrite.png" },
+      { name: "10 Education", src: "/images/sponsors/ten_education.png" },
       { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png" },
-      { name: "Onemore", src: "/images/sponsors/onemore_3.png" }
+      { name: "Onemore", src: "/images/sponsors/onemore.png" }
     ]
+  },
+  {
+    tier: "Bảo trợ truyền thông",
+    logos: [
+      { name: "Edu2Review", src: "/images/sponsors/edu2review_1.png" },
+      { name: "Eduwing Global", src: "/images/sponsors/edu2review_2.png" }
+    ]
+  },
+  {
+    tier: "Đối tác Đồng hành",
+    logos: [
+      { name: "MCNA", src: "/images/sponsors/mcna.png" },
+      { name: "TWINGS", src: "/images/sponsors/twings.svg" }
+    ]
+  },
+  {
+    tier: "Bảo trợ hình ảnh",
+    logos: [{ name: "FPC", src: "/images/sponsors/fpc.png" }]
   }
 ];
 
