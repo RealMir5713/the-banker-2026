@@ -109,34 +109,32 @@ export type SponsorLogo = {
 
 export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   {
-    tier: "Nhà tài trợ Vàng",
+    tier: "Nhà tài trợ Kim Cương",
     logos: [
-      { name: "MSB", src: "/images/msb-logo.png" },
-      { name: "SAPP Academy", src: "/images/sponsors/sapp.png" },
-      { name: "TWings Academy", src: "/images/sponsors/twings.svg" }
+      { name: "MSB", src: "/images/msb-logo.png" }
     ]
   },
   {
-    tier: "Nhà tài trợ Bạc",
+    tier: "Nhà tài trợ Đồng",
     logos: [
+      { name: "SAPP", src: "/images/sponsors/sapp.png" }
+    ]
+  },
+  {
+    tier: "Đối tác Đồng hành & Truyền thông",
+    logos: [
+      { name: "TWINGS", src: "/images/sponsors/twings.svg" },
       { name: "MCNA Technology School", src: "/images/sponsors/mcna.svg" },
-      { name: "10 Education", src: "/images/sponsors/ten_education.png" },
-      { name: "UniWrite", src: "/images/sponsors/uniwrite.png" }
+      { name: "Edu2Review", src: "/images/sponsors/edu2review_1.png" }
     ]
   },
   {
-    tier: "Đơn vị hợp tác",
+    tier: "Nhà tài trợ Hiện vật",
     logos: [
-      { name: "HEMA Gift", src: "/images/sponsors/hemera_1.png" },
-      { name: "Onemore+", src: "/images/sponsors/onemore_3.png" },
-      { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png" }
-    ]
-  },
-  {
-    tier: "Đối tác truyền thông",
-    logos: [
-      { name: "Edu2Review", src: "/images/sponsors/edu2review_1.png" },
-      { name: "The TOEIC Lab", src: "/images/sponsors/the_toeic_lab.png" }
+      { name: "Hemera Souvenirs", src: "/images/sponsors/hemera_1.png" },
+      { name: "UniGroup", src: "/images/sponsors/unigroup.svg" },
+      { name: "ToCoToCo", src: "/images/sponsors/tocotoco.png" },
+      { name: "Onemore", src: "/images/sponsors/onemore_3.png" }
     ]
   }
 ];
@@ -152,10 +150,10 @@ export const faqItems = [
   },
   {
     question: "Đăng ký theo cá nhân hay theo nhóm?",
-    answer: "Bạn có thể điền thông tin cá nhân và tên nhóm nếu đã có đội thi. Nếu chưa có đội, BTC có thể hỗ trợ hướng dẫn ở các vòng sau tùy thể lệ chính thức."
+    answer: "Bạn có thể điền thông tin cá nhân và tên nhóm nếu đã có đội thi. Nếu chưa có đội, BTC có thể hỗ trợ hướng dẫn ghép đội ở các vòng sau tùy thể lệ chính thức."
   },
   {
     question: "Cần chuẩn bị minh chứng gì?",
-    answer: "Bạn nên chuẩn bị link minh chứng học tập, chứng chỉ tiếng Anh, chứng chỉ chuyên môn, giải thưởng hoặc portfolio liên quan để hồ sơ được đánh giá đầy đủ hơn."
+    answer: "Bạn nên chuẩn bị link minh chứng hình ảnh đã like/share bài viết mở đơn đăng ký cuộc thi, cùng với CV cá nhân (đối với đăng ký cá nhân)."
   }
 ];

@@ -237,17 +237,6 @@ function HeroSection() {
               Đăng ký dự thi
               <ArrowRight className="h-4 w-4" />
             </Button>
-            <Button
-              onClick={() =>
-                document
-                  .querySelector("#thong-tin-cuoc-thi")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              size="lg"
-              variant="secondary"
-            >
-              Xem thể lệ
-            </Button>
           </motion.div>
         </div>
 

@@ -15,9 +15,7 @@ const csvHeaders: (keyof RegistrationRecord)[] = [
   "email",
   "university",
   "year",
-  "class_info",
-  "student_id",
-  "questions",
+  "major",
   "created_at"
 ];
 
@@ -87,8 +85,7 @@ export function AdminDashboard() {
         record.full_name,
         record.email,
         record.phone,
-        record.university,
-        record.student_id
+        record.university
       ]
         .join(" ")
         .toLowerCase()
@@ -237,7 +234,7 @@ export function AdminDashboard() {
                         <span className="block">{record.year}</span>
                       </td>
                       <td className="border-b border-banker-orange/8 px-3 py-4 text-banker-navy/68">
-                        <span className="block">{record.class_info} {record.student_id ? `(${record.student_id})` : ""}</span>
+                        <span className="block">{record.major}</span>
                       </td>
                     </tr>
                   ))}
