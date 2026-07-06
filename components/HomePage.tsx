@@ -106,7 +106,7 @@ function AnimatedCounter({
 }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
 
   useEffect(() => {
     if (!inView) {
@@ -599,8 +599,12 @@ function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-[1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-[8px] bg-banker-orange text-lg font-black">
-                B
+              <span className="relative flex h-14 w-10 items-center justify-center">
+                <img
+                  alt="The Banker logo"
+                  className="h-14 w-10 object-contain drop-shadow-[0_6px_12px_rgba(255,107,0,0.3)]"
+                  src="/images/the-banker-key-visual.png"
+                />
               </span>
               <div>
                 <p className="text-sm font-black uppercase tracking-[0.22em]">
@@ -612,8 +616,8 @@ function SiteFooter() {
               </div>
             </div>
             <p className="mt-5 max-w-sm text-sm leading-7 text-white/62">
-              Tái định hình tương lai ngân hàng số cùng thế hệ tài năng trẻ Việt
-              Nam và đối tác đồng hành MSB.
+              Kiến tạo Ngân hàng Mở — The Banker 2026
+              cùng đội ngũ tổ chức CLB FBN và đối tác MSB.
             </p>
           </div>
           <div>
