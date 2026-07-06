@@ -76,8 +76,13 @@ function doPost(e) {
         cvUrl = saveFile_(folder, payload.cv_file, payload.full_name + "_CV");
       }
       
-      if (payload.proof_file && payload.proof_file.base64) {
-        proofFileUrl = saveFile_(folder, payload.proof_file, payload.full_name + "_Proof");
+      if (payload.proof_images && payload.proof_images.length > 0) {
+        var urls = [];
+        for (var i = 0; i < payload.proof_images.length; i++) {
+          var imgUrl = saveFile_(folder, payload.proof_images[i], payload.full_name + "_Proof_" + (i + 1));
+          urls.push(imgUrl);
+        }
+        proofFileUrl = urls.join("\n");
       }
     }
 
@@ -106,7 +111,7 @@ function doPost(e) {
       payload.member_c_university        || "",
       payload.member_c_major             || "",
       payload.member_c_year              || "",
-      payload.proof_links                || "",
+      "",                                // Link minh chứng (đã bỏ)
       proofFileUrl,
       payload.source                     || "",
       payload.goals                      || "",

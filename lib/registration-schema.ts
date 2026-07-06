@@ -58,8 +58,9 @@ export const registrationSchema = z.object({
 
   // -- FINAL INFO --
   cv_file: fileSchema.optional(), // for individual
-  proof_links: z.string().trim().optional().default(""), // file upload changed to link? Actually user didn't specify. PDF says "Link minh chứng tổng hợp". So it's a link.
-  proof_file: fileSchema.optional(), // if they want to upload
+  proof_images: z.array(fileSchema)
+    .min(1, "Vui lòng tải lên ít nhất 1 ảnh minh chứng (Like/Share/Follow)")
+    .max(5, "Tối đa 5 ảnh minh chứng"),
   source: z.string().trim().optional().default(""),
   goals: z.string().trim().max(200, "Tối đa 200 từ").optional().default(""),
   has_participated: z.string().trim().optional().default(""),

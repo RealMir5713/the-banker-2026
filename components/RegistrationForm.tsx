@@ -25,6 +25,38 @@ function FieldError({ message }: { message?: string }) {
   );
 }
 
+function compressImage(file: File, maxWidth: number = 1200): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
+          resolve(compressedDataUrl.split(",")[1]);
+        } else {
+          resolve((event.target?.result as string).split(",")[1]);
+        }
+      };
+      img.onerror = (error) => reject(error);
+    };
+    reader.onerror = (error) => reject(error);
+  });
+}
+
 export function RegistrationForm() {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -85,7 +117,7 @@ export function RegistrationForm() {
 
   const handleFile = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: "cv_file" | "proof_file"
+    field: "cv_file"
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -109,6 +141,47 @@ export function RegistrationForm() {
       );
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleProofImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+
+    setIsSubmitting(true);
+    try {
+      const currentImages = watch("proof_images") || [];
+      const newImages = [...currentImages];
+
+      for (const file of files) {
+        if (newImages.length >= 5) break;
+        if (file.size > 5 * 1024 * 1024) {
+          alert(`File ${file.name} vượt quá 5MB`);
+          continue;
+        }
+
+        const base64String = await compressImage(file, 1200);
+        newImages.push({
+          filename: file.name,
+          mimeType: "image/jpeg",
+          base64: base64String
+        });
+      }
+
+      setValue("proof_images", newImages, { shouldValidate: true });
+    } catch (err) {
+      console.error("Error processing images:", err);
+      alert("Có lỗi xảy ra khi xử lý ảnh. Vui lòng thử lại.");
+    } finally {
+      setIsSubmitting(false);
+      e.target.value = "";
+    }
+  };
+
+  const removeProofImage = (index: number) => {
+    const currentImages = watch("proof_images") || [];
+    const newImages = [...currentImages];
+    newImages.splice(index, 1);
+    setValue("proof_images", newImages, { shouldValidate: true });
   };
 
   const onSubmit = async (data: RegistrationInput) => {
@@ -158,7 +231,7 @@ export function RegistrationForm() {
   }
 
   const cvFile = watch("cv_file");
-  const proofFile = watch("proof_file");
+  const proofImages = watch("proof_images") || [];
 
   const totalSteps = regType === "Cá nhân" ? 3 : 4;
 
@@ -445,22 +518,56 @@ export function RegistrationForm() {
             </div>
 
             <div className="grid gap-5 md:grid-cols-2">
-              <div>
+              <div className="md:col-span-2">
                 <label className="mb-2 block text-sm font-bold text-banker-navy">
-                  Link Google Drive minh chứng tổng hợp (Like/Share/Follow) <span className="text-banker-orange">*</span>
+                  Ảnh minh chứng Like/Share/Follow (Tối đa 5 ảnh) <span className="text-banker-orange">*</span>
                 </label>
-                <Input {...register("proof_links")} placeholder="https://drive.google.com/..." className="h-12 rounded-[12px]" />
-                <FieldError message={errors.proof_links?.message} />
-              </div>
-              <div>
-                <label className="mb-2 block text-sm font-bold text-banker-navy">
-                  Hoặc tải file nén (ZIP/PDF) trực tiếp
+                <label className="flex min-h-32 cursor-pointer flex-col items-center justify-center rounded-[12px] border border-dashed border-banker-orange/30 bg-banker-orange/5 px-5 py-5 text-center transition hover:border-banker-orange hover:bg-banker-orange/10">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={handleProofImages}
+                  />
+                  <UploadCloud className="h-7 w-7 text-banker-orange" />
+                  <span className="mt-2 text-sm font-black text-banker-navy">
+                    Tải lên ảnh minh chứng
+                  </span>
+                  <span className="mt-1 text-xs leading-5 text-banker-navy/55">
+                    Định dạng: JPG, PNG. Tối đa 5MB/ảnh.
+                  </span>
                 </label>
-                <label className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[12px] border border-dashed border-banker-orange/30 bg-banker-orange/5 text-sm font-medium text-banker-orange hover:bg-banker-orange/10">
-                  <UploadCloud className="h-4 w-4" />
-                  {proofFile ? proofFile.filename : "Tải lên file"}
-                  <input type="file" accept=".pdf,.zip,.rar" className="hidden" onChange={(e) => handleFile(e, "proof_file")} />
-                </label>
+
+                {proofImages.length > 0 && (
+                  <ul className="mt-4 space-y-2">
+                    {proofImages.map((img, index) => (
+                      <li
+                        key={index}
+                        className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 shadow-sm"
+                      >
+                        <div className="flex items-center space-x-3 overflow-hidden">
+                          <img
+                            src={`data:${img.mimeType};base64,${img.base64}`}
+                            alt={img.filename}
+                            className="h-10 w-10 flex-shrink-0 rounded object-cover"
+                          />
+                          <span className="truncate text-sm font-medium text-gray-700">
+                            {img.filename}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeProofImage(index)}
+                          className="ml-4 rounded-full p-1 text-gray-400 hover:bg-red-50 hover:text-red-500"
+                        >
+                          <X className="h-5 w-5" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <FieldError message={errors.proof_images?.message} />
               </div>
               <div className="md:col-span-2">
                 <label className="mb-2 block text-sm font-bold text-banker-navy">Bạn biết đến cuộc thi từ đâu?</label>
