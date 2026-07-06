@@ -28,28 +28,13 @@ const HEADERS = [
   "Họ và tên",
   "Số điện thoại",
   "Email",
-  "Giới tính",
-  "Ngày sinh",
-  "Link Facebook",
-  "Quê quán",
-  "Tỉnh/Thành phố",
   "Trường đại học",
   "Năm học",
-  "Chuyên ngành",
   "Khóa – Lớp",
   "Mã sinh viên",
-  "GPA/CPA",
-  "Thang điểm",
-  "Chứng chỉ tiếng Anh",
-  "Chứng chỉ chuyên môn",
-  "Chứng chỉ khác",
-  "Giải thưởng",
-  "Tên nhóm",
-  "Link minh chứng",
-  "Nguồn biết đến",
-  "Kỳ vọng",
   "Minh chứng Like Fanpage",
-  "Minh chứng khác (File)"
+  "Minh chứng Share bài mở đơn",
+  "Câu hỏi cho BTC"
 ];
 
 function doGet() {
@@ -67,7 +52,7 @@ function doPost(e) {
 
     // Process file uploads if present
     var fanpageProofUrl = "";
-    var otherProofUrl = "";
+    var shareProofUrl = "";
 
     if (DRIVE_FOLDER_ID && DRIVE_FOLDER_ID !== "YOUR_DRIVE_FOLDER_ID_HERE") {
       var folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
@@ -76,8 +61,8 @@ function doPost(e) {
         fanpageProofUrl = saveFile_(folder, payload.fanpage_like_proof_file, payload.full_name + "_FanpageLike");
       }
       
-      if (payload.other_proof_file && payload.other_proof_file.base64) {
-        otherProofUrl = saveFile_(folder, payload.other_proof_file, payload.full_name + "_OtherProof");
+      if (payload.share_proof_file && payload.share_proof_file.base64) {
+        shareProofUrl = saveFile_(folder, payload.share_proof_file, payload.full_name + "_ShareProof");
       }
     }
 
@@ -86,28 +71,13 @@ function doPost(e) {
       payload.full_name                  || "",
       payload.phone                      || "",
       payload.email                      || "",
-      payload.gender                     || "",
-      payload.birth_date                 || "",
-      payload.facebook_url               || "",
-      payload.hometown                   || "",
-      payload.current_city               || "",
       payload.university                 || "",
       payload.year                       || "",
-      payload.major                      || "",
       payload.class_info                 || "",
       payload.student_id                 || "",
-      payload.gpa                        || "",
-      payload.gpa_scale                  || "",
-      payload.english_certificates       || "",
-      payload.professional_certificates  || "",
-      payload.other_certificates         || "",
-      payload.awards                     || "",
-      payload.team_name                  || "",
-      payload.proof_links                || "",
-      payload.referral_source            || "",
-      payload.expectations               || "",
       fanpageProofUrl,
-      otherProofUrl
+      shareProofUrl,
+      payload.questions                  || ""
     ];
 
     sheet.appendRow(row);

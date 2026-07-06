@@ -467,62 +467,7 @@ function JourneySection() {
   );
 }
 
-function FinaleSection() {
-  return (
-    <section className="relative overflow-hidden py-24" id="quy-trinh-du-thi">
-      <div className="absolute inset-0 bg-banker-navy" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,107,0,0.42),transparent_32rem),radial-gradient(circle_at_86%_20%,rgba(217,164,65,0.28),transparent_30rem)]" />
-      <div className="section-shell relative z-10">
-        <div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
-          <Reveal>
-            <Badge className="border-white/20 bg-white/10 text-banker-light">
-              <Ticket className="h-3.5 w-3.5" />
-              Competition Registration
-            </Badge>
-            <h2 className="mt-6 text-balance text-5xl font-black text-white md:text-6xl">
-              Thông tin đăng ký dự thi
-            </h2>
-            <p className="mt-5 text-lg leading-8 text-white/[0.78]">
-              Hoàn tất hồ sơ để bước vào hành trình The Banker 2026, từ vòng
-              sàng lọc tới các thử thách chuyên môn về tài chính, ngân hàng số
-              và giải pháp fintech cùng MSB.
-            </p>
-            <div className="mt-8 space-y-3">
-              {eventDetails.map((detail) => {
-                const Icon = detail.icon;
-                return (
-                  <div
-                    className="flex items-center gap-3 rounded-[8px] border border-white/12 bg-white/10 px-4 py-3 text-base font-bold text-white backdrop-blur-xl"
-                    key={detail.label}
-                  >
-                    <Icon className="h-5 w-5 text-banker-light" />
-                    {detail.label}
-                  </div>
-                );
-              })}
-            </div>
-          </Reveal>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            {agenda.map((item, index) => (
-              <Reveal delay={index * 0.07} key={item.time}>
-                <div className="group h-full rounded-[8px] border border-white/12 bg-white/10 p-5 text-white backdrop-blur-xl transition hover:-translate-y-2 hover:border-banker-orange/55 hover:bg-white/16">
-                  <p className="text-3xl font-black text-banker-light">
-                    {item.time}
-                  </p>
-                  <h3 className="mt-4 text-xl font-black">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-white/[0.74]">
-                    {item.description}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 
 function SponsorMarquee({ logos }: { logos: { name: string; src: string }[] }) {
@@ -582,11 +527,15 @@ function RegistrationSection() {
     <section className="relative overflow-hidden py-24" id="dang-ky">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,107,0,0.18),transparent_30rem),radial-gradient(circle_at_80%_70%,rgba(217,164,65,0.14),transparent_30rem)]" />
       <div className="section-shell relative z-10">
-        <SectionTitle
-          description="Hoàn tất thông tin để đăng ký dự thi The Banker 2026."
-          eyebrow="Registration"
-          title="Đăng ký dự thi The Banker 2026"
-        />
+        <div className="text-center mb-10">
+          <h2 className="text-[28px] md:text-4xl font-black uppercase text-[#355fb5] tracking-wide">
+            Đăng ký tham dự đêm chung kết<br/>
+            The Banker 2026
+          </h2>
+          <p className="mt-4 text-base md:text-lg font-bold uppercase text-[#355fb5]">
+            Phát triển kinh doanh ngân hàng trên nền tảng số
+          </p>
+        </div>
         <Reveal>
           <div className="glass-border rounded-[8px] border border-white/70 bg-white/62 p-5 shadow-premium backdrop-blur-2xl md:p-8">
             <RegistrationForm />
@@ -743,7 +692,7 @@ export function HomePage() {
       <AboutSection />
       <StatsSection />
       <JourneySection />
-      <FinaleSection />
+
       <SponsorsSection />
       <RegistrationSection />
       <FAQSection />

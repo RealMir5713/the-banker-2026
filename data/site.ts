@@ -119,7 +119,7 @@ export const sponsorTiers: Array<{ tier: string; logos: SponsorLogo[] }> = [
   {
     tier: "Nhà tài trợ Bạc",
     logos: [
-      { name: "MCNA Technology School", src: "/images/sponsors/mcna.png" },
+      { name: "MCNA Technology School", src: "/images/sponsors/mcna.svg" },
       { name: "10 Education", src: "/images/sponsors/ten_education.png" },
       { name: "UniWrite", src: "/images/sponsors/uniwrite.png" }
     ]

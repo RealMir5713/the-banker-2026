@@ -13,26 +13,11 @@ const csvHeaders: (keyof RegistrationRecord)[] = [
   "full_name",
   "phone",
   "email",
-  "gender",
-  "birth_date",
-  "facebook_url",
-  "hometown",
-  "current_city",
   "university",
   "year",
-  "major",
   "class_info",
   "student_id",
-  "gpa",
-  "gpa_scale",
-  "english_certificates",
-  "professional_certificates",
-  "other_certificates",
-  "awards",
-  "team_name",
-  "proof_links",
-  "referral_source",
-  "expectations",
+  "questions",
   "created_at"
 ];
 
@@ -103,10 +88,7 @@ export function AdminDashboard() {
         record.email,
         record.phone,
         record.university,
-        record.major,
-        record.team_name,
-        record.student_id,
-        record.current_city
+        record.student_id
       ]
         .join(" ")
         .toLowerCase()
@@ -116,7 +98,6 @@ export function AdminDashboard() {
 
   const stats = useMemo(() => {
     const universities = new Set(records.map((record) => record.university));
-    const teams = new Set(records.map((record) => record.team_name));
     const today = new Date().toLocaleDateString("vi-VN", {
       timeZone: "Asia/Ho_Chi_Minh"
     });
@@ -130,7 +111,6 @@ export function AdminDashboard() {
     return [
       { label: "Tổng hồ sơ", value: records.length },
       { label: "Trường đại học", value: universities.size },
-      { label: "Đội thi", value: teams.size },
       { label: "Đăng ký hôm nay", value: todayCount }
     ];
   }, [records]);
@@ -192,7 +172,7 @@ export function AdminDashboard() {
 
       {hasLoaded ? (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {stats.map((item) => (
               <Card className="p-5" key={item.label}>
                 <p className="text-sm font-bold uppercase tracking-[0.16em] text-banker-navy/54">
@@ -212,7 +192,7 @@ export function AdminDashboard() {
                 <Input
                   className="pl-11"
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Tìm theo tên, email, trường, chuyên ngành, đội thi..."
+                  placeholder="Tìm theo tên, email, trường..."
                   value={query}
                 />
               </div>
@@ -223,17 +203,15 @@ export function AdminDashboard() {
             </div>
 
             <div className="mt-6 overflow-x-auto">
-              <table className="w-full min-w-[1180px] border-separate border-spacing-0 text-left text-sm">
+              <table className="w-full min-w-[900px] border-separate border-spacing-0 text-left text-sm">
                 <thead>
                   <tr className="text-xs uppercase tracking-[0.14em] text-banker-navy/52">
                     {[
                       "Thời gian",
                       "Họ tên",
                       "Liên hệ",
-                      "Trường & chuyên ngành",
-                      "GPA",
-                      "Đội thi",
-                      "Hồ sơ"
+                      "Trường",
+                      "Chi tiết"
                     ].map((header) => (
                       <th className="border-b border-banker-orange/12 px-3 py-3 font-black" key={header}>
                         {header}
@@ -249,9 +227,6 @@ export function AdminDashboard() {
                       </td>
                       <td className="border-b border-banker-orange/8 px-3 py-4 font-bold text-banker-navy">
                         <span className="block">{record.full_name}</span>
-                        <span className="mt-1 block font-normal text-banker-navy/58">
-                          {record.gender} · {record.birth_date}
-                        </span>
                       </td>
                       <td className="border-b border-banker-orange/8 px-3 py-4 text-banker-navy/68">
                         <span className="block">{record.phone}</span>
@@ -259,27 +234,10 @@ export function AdminDashboard() {
                       </td>
                       <td className="border-b border-banker-orange/8 px-3 py-4 text-banker-navy/68">
                         <span className="block font-semibold text-banker-navy">{record.university}</span>
-                        <span className="block">{record.major} · {record.year}</span>
+                        <span className="block">{record.year}</span>
                       </td>
                       <td className="border-b border-banker-orange/8 px-3 py-4 text-banker-navy/68">
-                        {record.gpa}/{record.gpa_scale}
-                      </td>
-                      <td className="border-b border-banker-orange/8 px-3 py-4 text-banker-navy/68">
-                        {record.team_name}
-                      </td>
-                      <td className="border-b border-banker-orange/8 px-3 py-4 text-banker-navy/68">
-                        {record.proof_links ? (
-                          <a
-                            className="font-bold text-banker-orange hover:underline"
-                            href={record.proof_links}
-                            rel="noreferrer"
-                            target="_blank"
-                          >
-                            Xem minh chứng
-                          </a>
-                        ) : (
-                          "Chưa có"
-                        )}
+                        <span className="block">{record.class_info} {record.student_id ? `(${record.student_id})` : ""}</span>
                       </td>
                     </tr>
                   ))}
