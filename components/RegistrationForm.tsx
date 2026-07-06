@@ -115,33 +115,7 @@ export function RegistrationForm() {
     setStep((s) => Math.max(1, s - 1));
   };
 
-  const handleFile = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: "cv_file"
-  ) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
 
-    if (file.size > 10 * 1024 * 1024) {
-      alert("Kích thước file không được vượt quá 10MB");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64String = (event.target?.result as string).split(",")[1];
-      setValue(
-        field,
-        {
-          filename: file.name,
-          mimeType: file.type,
-          base64: base64String
-        },
-        { shouldValidate: true }
-      );
-    };
-    reader.readAsDataURL(file);
-  };
 
   const handleProofImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -184,55 +158,7 @@ export function RegistrationForm() {
     setValue("proof_images", newImages, { shouldValidate: true });
   };
 
-  const handleTeamCvFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length === 0) return;
 
-    setIsSubmitting(true);
-    try {
-      const currentFiles = watch("team_cv_files") || [];
-      const newFiles = [...currentFiles];
-
-      for (const file of files) {
-        if (newFiles.length >= 4) {
-          alert("Tối đa 4 file");
-          break;
-        }
-        if (file.size > 2 * 1024 * 1024) {
-          alert(`File ${file.name} vượt quá 2MB. Vui lòng nén file.`);
-          continue;
-        }
-
-        const base64String = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => resolve((reader.result as string).split(",")[1]);
-          reader.onerror = reject;
-        });
-
-        newFiles.push({
-          filename: file.name,
-          mimeType: file.type || "application/octet-stream",
-          base64: base64String
-        });
-      }
-
-      setValue("team_cv_files", newFiles, { shouldValidate: true });
-    } catch (err) {
-      console.error(err);
-      alert("Có lỗi khi đọc file. Vui lòng thử lại.");
-    } finally {
-      setIsSubmitting(false);
-      e.target.value = "";
-    }
-  };
-
-  const removeTeamCvFile = (index: number) => {
-    const currentFiles = watch("team_cv_files") || [];
-    const newFiles = [...currentFiles];
-    newFiles.splice(index, 1);
-    setValue("team_cv_files", newFiles, { shouldValidate: true });
-  };
 
   const onSubmit = async (data: RegistrationInput) => {
     setIsSubmitting(true);
@@ -280,8 +206,6 @@ export function RegistrationForm() {
     );
   }
 
-  const cvFile = watch("cv_file");
-  const teamCvFiles = watch("team_cv_files") || [];
   const proofImages = watch("proof_images") || [];
 
   const totalSteps = regType === "Cá nhân" ? 3 : 4;
@@ -407,13 +331,9 @@ export function RegistrationForm() {
                 <FieldError message={errors.facebook_url?.message} />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-bold text-banker-navy">CV Cá nhân (PDF) <span className="text-banker-orange">*</span></label>
-                <label className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[12px] border border-dashed border-banker-orange/30 bg-banker-orange/5 text-sm font-medium text-banker-orange hover:bg-banker-orange/10">
-                  <UploadCloud className="h-4 w-4" />
-                  {cvFile ? cvFile.filename : "Tải lên CV"}
-                  <input type="file" accept=".pdf" className="hidden" onChange={(e) => handleFile(e, "cv_file")} />
-                </label>
-                {!cvFile && <FieldError message="Vui lòng tải lên CV" />}
+                <label className="mb-2 block text-sm font-bold text-banker-navy">Link Google Drive CV Cá nhân <span className="text-banker-orange">*</span></label>
+                <Input {...register("cv_link")} placeholder="https://drive.google.com/..." className="h-12 rounded-[12px]" />
+                <FieldError message={errors.cv_link?.message} />
               </div>
             </div>
 
@@ -516,7 +436,8 @@ export function RegistrationForm() {
 
             {[
               { id: "b", title: "Thành viên B" },
-              ...(teamSize === "4" ? [{ id: "c", title: "Thành viên C" }] : [])
+              { id: "c", title: "Thành viên C" },
+              ...(teamSize === "4" ? [{ id: "d", title: "Thành viên D" }] : [])
             ].map((member) => (
               <div key={member.id} className="rounded-[16px] border border-banker-orange/20 p-6 shadow-sm">
                 <h4 className="mb-4 text-lg font-bold text-banker-navy">{member.title}</h4>
@@ -644,49 +565,10 @@ export function RegistrationForm() {
               {regType === "Đồng đội" && (
                 <div className="md:col-span-2">
                   <label className="mb-2 block text-sm font-bold text-banker-navy">
-                    CV tổng hợp của nhóm (PDF hoặc ZIP, tối đa 4 file) <span className="text-banker-orange">*</span>
+                    Link Google Drive CV tổng hợp của nhóm <span className="text-banker-orange">*</span>
                   </label>
-                  <label className="flex min-h-24 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[12px] border border-dashed border-banker-orange/30 bg-banker-orange/5 p-4 text-center transition hover:border-banker-orange hover:bg-banker-orange/10">
-                    <input
-                      type="file"
-                      accept=".pdf,.zip"
-                      multiple
-                      className="hidden"
-                      onChange={handleTeamCvFiles}
-                    />
-                    <UploadCloud className="h-6 w-6 text-banker-orange" />
-                    <span className="text-sm font-bold text-banker-navy">
-                      Tải lên file CV của nhóm (.pdf, .zip)
-                    </span>
-                    <span className="mt-1 text-xs leading-5 text-banker-navy/55">
-                      Tối đa 4 file. Tối đa 2MB/file.
-                    </span>
-                  </label>
-
-                  {teamCvFiles.length > 0 && (
-                    <ul className="mt-4 space-y-2">
-                      {teamCvFiles.map((f: any, index: number) => (
-                        <li
-                          key={index}
-                          className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 shadow-sm"
-                        >
-                          <div className="flex items-center space-x-3 overflow-hidden">
-                            <span className="truncate text-sm font-medium text-gray-700">
-                              {f.filename}
-                            </span>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => removeTeamCvFile(index)}
-                            className="ml-4 rounded-full p-1 text-gray-400 hover:bg-red-50 hover:text-red-500"
-                          >
-                            <X className="h-5 w-5" />
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  <FieldError message={(errors as any).team_cv_files?.message} />
+                  <Input {...register("team_cv_link")} placeholder="https://drive.google.com/..." className="h-12 rounded-[12px]" />
+                  <FieldError message={(errors as any).team_cv_link?.message} />
                 </div>
               )}
               <div className="md:col-span-2">

@@ -78,27 +78,6 @@ function doPost(e) {
     var sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
     var now   = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "dd/MM/yyyy HH:mm:ss");
 
-    var cvUrl = "";
-    var proofFileUrl = "";
-
-    if (DRIVE_FOLDER_ID && DRIVE_FOLDER_ID !== "YOUR_DRIVE_FOLDER_ID_HERE") {
-      var folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
-      
-      if (payload.cv_file && payload.cv_file.base64) {
-        cvUrl = saveFile_(folder, payload.cv_file, payload.full_name + "_CV");
-      }
-
-      // Team CVs (for team registrations)
-      if (payload.team_cv_files && payload.team_cv_files.length > 0) {
-        var tCvUrls = [];
-        for (var k = 0; k < payload.team_cv_files.length; k++) {
-          var tUrl = saveFile_(folder, payload.team_cv_files[k], (payload.team_name || payload.full_name) + "_TeamCV_" + (k+1));
-          tCvUrls.push(tUrl);
-        }
-        var teamCvUrlStr = tCvUrls.join("\n");
-        cvUrl = cvUrl ? cvUrl + "\n" + teamCvUrlStr : teamCvUrlStr;
-      }
-      
       if (payload.proof_images && payload.proof_images.length > 0) {
         var urls = [];
         for (var i = 0; i < payload.proof_images.length; i++) {
@@ -108,6 +87,8 @@ function doPost(e) {
         proofFileUrl = urls.join("\n");
       }
     }
+
+    var cvUrl = payload.registration_type === "Đồng đội" ? (payload.team_cv_link || "") : (payload.cv_link || "");
 
     var row = [
       now,
@@ -122,14 +103,6 @@ function doPost(e) {
       payload.university                 || "",
       payload.major                      || "",
       payload.year                       || "",
-      payload.member_a_name              || "",
-      payload.member_a_phone             || "",
-      payload.member_a_email             || "",
-      payload.member_a_birth_date        || "",
-      payload.member_a_facebook_url      || "",
-      payload.member_a_university        || "",
-      payload.member_a_major             || "",
-      payload.member_a_year              || "",
       payload.member_b_name              || "",
       payload.member_b_phone             || "",
       payload.member_b_email             || "",
@@ -146,6 +119,14 @@ function doPost(e) {
       payload.member_c_university        || "",
       payload.member_c_major             || "",
       payload.member_c_year              || "",
+      payload.member_d_name              || "",
+      payload.member_d_phone             || "",
+      payload.member_d_email             || "",
+      payload.member_d_birth_date        || "",
+      payload.member_d_facebook_url      || "",
+      payload.member_d_university        || "",
+      payload.member_d_major             || "",
+      payload.member_d_year              || "",
       "",                                // Link minh chứng (đã bỏ)
       proofFileUrl,
       payload.source                     || "",
