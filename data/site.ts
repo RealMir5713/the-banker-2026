@@ -34,28 +34,28 @@ export const stats = [
 
 export const journey = [
   {
-    title: "Vòng 1 - IGNITE",
+    title: "Vòng 1: IGNITE",
     date: "06/07 - 26/07",
     subtitle: "Khởi động & đăng ký",
     description: "Hoàn thiện hồ sơ và bước vào hành trình chinh phục The Banker 2026.",
     icon: FileText
   },
   {
-    title: "Vòng - ENVISION",
+    title: "Vòng 2: ENVISION",
     date: "28/07 - 09/08",
     subtitle: "Kiến thức ngân hàng",
     description: "Thử thách nền tảng tài chính, ngân hàng, dữ liệu và chuyển đổi số.",
     icon: ShieldCheck
   },
   {
-    title: "Vòng 3 - FORGE",
+    title: "Vòng 3: FORGE",
     date: "12/08 - 20/08",
     subtitle: "Giải quyết tình huống",
     description: "Phân tích bài toán thực tế và phát triển giải pháp ngân hàng hiện đại.",
     icon: Building2
   },
   {
-    title: "Vòng 4 - ASCEND BEYOND",
+    title: "Vòng 4: ASCEND BEYOND",
     date: "23/08 - 13/09",
     subtitle: "Tăng tốc & tranh tài",
     description: "Hoàn thiện chiến lược và thuyết trình trước hội đồng chuyên môn.",
