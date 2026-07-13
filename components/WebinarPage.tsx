@@ -597,19 +597,18 @@ function CompetitionBridge() {
 
 function RegistrationSection() {
   return (
-    <section className="relative overflow-hidden py-24" id="dang-ky-webinar">
+    <section
+      className="relative overflow-hidden py-24"
+      id="dang-ky-webinar"
+    >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(255,107,0,0.17),transparent_30rem),radial-gradient(circle_at_82%_70%,rgba(217,164,65,0.15),transparent_28rem)]" />
+
       <div className="section-shell relative z-10">
         <SectionHeading
-          description="Hoàn tất thông tin để Ban tổ chức xác nhận chỗ và gửi hướng dẫn truy cập webinar."
-          eyebrow="Registration"
-          title="Đăng ký xem webinar trực tuyến"
+          description="Đơn đăng ký Webinar đã được đóng. Cảm ơn bạn đã quan tâm và theo dõi chương trình."
+          eyebrow="Registration Closed"
+          title="Đã đóng đơn đăng ký Webinar trực tuyến"
         />
-        <Reveal>
-          <div className="glass-border rounded-[8px] border border-white/75 bg-white/[0.72] p-5 shadow-premium backdrop-blur-2xl md:p-8">
-            <WebinarRegistrationForm />
-          </div>
-        </Reveal>
       </div>
     </section>
   );
