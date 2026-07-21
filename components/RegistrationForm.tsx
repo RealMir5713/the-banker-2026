@@ -589,7 +589,7 @@ export function RegistrationForm() {
                 <Input {...register("source")} placeholder="Fanpage, Bạn bè, Email..." className="h-12 rounded-[12px]" />
               </div>
               <div className="md:col-span-2">
-                <label className="mb-2 block text-sm font-bold text-banker-navy">Mục tiêu khi tham gia The Banker (tối đa 200 từ)</label>
+                <label className="mb-2 block text-sm font-bold text-banker-navy">Mục tiêu khi tham gia The Banker (tối đa 200 ký tự)</label>
                 <textarea 
                   {...register("goals")} 
                   placeholder="Mục tiêu của bạn..." 
